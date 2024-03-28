@@ -260,29 +260,22 @@ class OrderController extends Controller
         $order=Order::where('user_id',auth()->user()->id)->where('order_number',$request->order_number)->first();
         if($order){
             if($order->status=="new"){
-            request()->session()->flash('success','Your order has been placed. please wait.');
-            return redirect()->route('home');
+                return redirect()->back()->with('success','Your order has been placed. please wait.');
 
             }
             elseif($order->status=="process"){
-                request()->session()->flash('success','Your order is under processing please wait.');
-                return redirect()->route('home');
+                return redirect()->back()->with('success','Your order is under processing please wait');
 
             }
             elseif($order->status=="delivered"){
-                request()->session()->flash('success','Your order is successfully delivered.');
-                return redirect()->route('home');
-
+                return redirect()->back()->with('success','Your order is successfully delivered');
             }
             else{
-                request()->session()->flash('error','Your order canceled. please try again');
-                return redirect()->route('home');
-
+                return redirect()->back()->with('error','Your order canceled. please try again');
             }
         }
         else{
-            request()->session()->flash('error','Invalid order numer please try again');
-            return back();
+            return redirect()->back()->with('error','Invalid order number please try again');
         }
     }
 

@@ -92,7 +92,7 @@ C45.2,71.4,44.6,71.4,44.2,71z" />
                             </tr>
                             <tr>
                                 <th class="order-list__column-label" colspan="3">Shipping</th>
-                                <td class="order-list__column-total">£{{  $order->shipping->price  }}</td>
+                                <td class="order-list__column-total">£@if($order->shipping){{  $order->shipping->price  }}@else 0 @endif</td>
                             </tr>
                             <tr>
                                 <th class="order-list__column-label" colspan="3">Tax</th>

@@ -84,7 +84,7 @@
                                             </div>
 
                                             <div class="widget-filters__item">
-                                                <div class="filter filter--opened" data-collapse-item>
+                                                <div class="filter filter--opened active" data-collapse-item>
                                                     <button type="button" class="filter__title" data-collapse-trigger>
                                                         Price
                                                         <span class="filter__arrow"><svg width="12px" height="7px">
@@ -92,21 +92,23 @@
                                                             </svg></span>
                                                     </button>
 
-
-
-                                                    <div class="filter__body" data-collapse-content>
+                                                    <div class="filter__body active" data-collapse-content>
                                                         <div class="filter__container">
                                                             <div class="filter-price" data-min="0" data-max="{{ $maxPrice }}" data-from="{{ $maxPrice/3 }}" data-to="{{ $maxPrice/2 }}">
                                                                 <div class="filter-price__slider"></div>
                                                                 <div class="filter-price__title-button">
-                                                                    <div class="filter-price__title">$<span class="filter-price__min-value"></span> – $<span class="filter-price__max-value"></span></div>
-                                                                    <button type="button" class="btn btn-xs btn-secondary filter-price__button">Filter</button>
+                                                                    <div class="filter-price__title">£<span class="filter-price__min-value"></span> – £<span class="filter-price__max-value"></span></div>
+
+                                                                    <button type="button" class="btn btn-xs btn-secondary filter-price__button" onclick="applyFilter()">Filter</button>
+                                                                    <a href="{{ route('home') }}" class="btn btn-xs btn-secondary filter-price__button" >Reset</a>
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
 
 
 
@@ -356,22 +358,18 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.filter-price__slider').on('slideStop', function() {
-                // Ensure that the event is being triggered
-                console.log("Slider stopped");
+        function applyFilter() {
+            var minPrice = document.querySelector('.filter-price__min-value').textContent;
+            var maxPrice = document.querySelector('.filter-price__max-value').textContent;
 
-                // Get the values of min and max prices
-                var minPrice = $('.filter-price__min-value').text().trim();
-                var maxPrice = $('.filter-price__max-value').text().trim();
-
-                // Verify that the values are correctly retrieved
-                console.log("Min Price:", minPrice);
-                console.log("Max Price:", maxPrice);
-
-                // Display an alert with the values
-                alert("Min Price: " + minPrice + "\nMax Price: " + maxPrice);
-            });
-        });
+            // Update URL with new price range
+            var urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('price', minPrice + '-' + maxPrice);
+            window.location.search = urlParams.toString();
+            // Submit the form
+            document.getElementById('filterForm').submit();
+        }
     </script>
+
+
 @endsection

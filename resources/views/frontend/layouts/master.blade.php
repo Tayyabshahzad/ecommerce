@@ -194,7 +194,7 @@
                                                     <ul class="menu">
                                                         @foreach(Helper::getAllCategory() as $cat)
                                                         <li class="menu__item">
-                                                            <a href="#" class="menu__link">
+                                                            <a href="{{route('product-cat',$cat->slug)}}" class="menu__link">
                                                                 {{$cat->title}}
                                                             </a>
                                                         </li>
@@ -206,7 +206,7 @@
 
 
                                             <li class="menu__item">
-                                                <a href="#" class="menu__link">
+                                                <a href="{{ route('all.products') }}" class="menu__link">
                                                     All Products
                                                 </a>
                                             </li>
@@ -238,8 +238,8 @@
                         <form method="post"  action="{{route('product.search')}}" class="search__body">
                             @csrf
                             <div class="search__shadow"></div>
-                            <input class="search__input"  name="search" placeholder="Search Products Here....." type="search">
-                            <button class="search__button search__button--start" type="submit">
+                            <input class="search__input"  name="search" placeholder="Search Products Here....." type="search" id="search" autocomplete="off">
+                            {{-- <button class="search__button search__button--start" type="submit">
                                 <span class="search__button-icon"><svg width="20" height="20">
                                     <path d="M19.2,17.8c0,0-0.2,0.5-0.5,0.8c-0.4,0.4-0.9,0.6-0.9,0.6s-0.9,0.7-2.8-1.6c-1.1-1.4-2.2-2.8-3.1-3.9C10.9,14.5,9.5,15,8,15
                                     c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7c0,1.5-0.5,2.9-1.3,4c1.1,0.8,2.5,2,4,3.1C20,16.8,19.2,17.8,19.2,17.8z M8,3C5.2,3,3,5.2,3,8
@@ -247,32 +247,23 @@
                                     </svg>
                                 </span>
 
-                            </button>
-                            <button class="search__button search__button--end" type="submit">
+                            </button> --}}
+                            {{-- <button class="search__button search__button--end" type="submit">
                                 <span class="search__button-icon"><svg width="20" height="20">
                                         <path d="M19.2,17.8c0,0-0.2,0.5-0.5,0.8c-0.4,0.4-0.9,0.6-0.9,0.6s-0.9,0.7-2.8-1.6c-1.1-1.4-2.2-2.8-3.1-3.9C10.9,14.5,9.5,15,8,15
 	c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7c0,1.5-0.5,2.9-1.3,4c1.1,0.8,2.5,2,4,3.1C20,16.8,19.2,17.8,19.2,17.8z M8,3C5.2,3,3,5.2,3,8
 	c0,2.8,2.2,5,5,5c2.8,0,5-2.2,5-5C13,5.2,10.8,3,8,3z" />
                                     </svg>
                                 </span>
-                            </button>
+                            </button> --}}
                             <div class="search__box"></div>
                             <div class="search__decor">
                                 <div class="search__decor-start"></div>
                                 <div class="search__decor-end"></div>
                             </div>
-                            <div class="search__dropdown search__dropdown--suggestions suggestions">
+                            <div class="search__dropdown search__dropdown--suggestions suggestions d-none" id="search__dropdown">
                                 <div class="suggestions__group">
-
-                                </div>
-                                <div class="suggestions__group">
-                                    <div class="suggestions__group-title">Categories</div>
-                                    <div class="suggestions__group-content">
-
-                                        @foreach(Helper::getAllCategory() as $cat)
-                                        <a class="suggestions__item suggestions__category" href=""> {{$cat->title}}  </a>
-
-                                        @endforeach
+                                    <div class="suggestions__group-content" id="search-suggestions">
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +273,7 @@
                 </div>
                 <div class="header__indicators">
                     <div class="indicator">
-                        <a href="{{route('wishlist')}}" class="indicator__button">
+                        {{-- <a href="{{route('wishlist')}}" class="indicator__button">
                             <span class="indicator__icon">
                                 <svg width="32" height="32">
                                     <path d="M23,4c3.9,0,7,3.1,7,7c0,6.3-11.4,15.9-14,16.9C13.4,26.9,2,17.3,2,11c0-3.9,3.1-7,7-7c2.1,0,4.1,1,5.4,2.6l1.6,2l1.6-2
@@ -291,7 +282,7 @@
                                 </svg>
                             </span>
                             {{Helper::wishlistCount()}}
-                        </a>
+                        </a> --}}
                     </div>
                     <div class="indicator indicator--trigger--click">
                         <a href="account-login.html" class="indicator__button">
@@ -598,7 +589,42 @@
     <script src="{{  asset('theme/vendor/select2/js/select2.min.js')}}"></script>
     <script src="{{  asset('theme/js/number.js')}}"></script>
     <script src="{{  asset('theme/js/main.js')}}"></script>
+    <script>
+        const searchInput = document.getElementById('search');
+        const suggestionsContainer = document.getElementById('search-suggestions');
+        const searchDropdown = document.getElementById('search__dropdown');
+        searchInput.addEventListener('input', function() {
+            const searchText = this.value.trim();
+            if (searchText.length === 0) {
+                suggestionsContainer.innerHTML = ''; // Clear suggestions if no text
+                return;
+            }
 
+            // Make an AJAX request to fetch search suggestions
+            fetch('{{ route('product.suggestions') }}?search=' + encodeURIComponent(searchText))
+                .then(response => response.json())
+                .then(data => {
+                    // Render suggestions
+                    searchDropdown.classList.remove('d-none');
+                    if (data.length === 0) {
+                        suggestionsContainer.innerHTML = '<a class="suggestions__item suggestions__category" href="">No products found</a>';
+                    }else{
+                        suggestionsContainer.innerHTML = '';
+                        data.forEach(product => {
+                            const suggestionItem = document.createElement('a');
+                            suggestionItem.classList.add('suggestions__item', 'suggestions__category');
+                            suggestionItem.href = '{{ route('product-detail', ':id') }}'.replace(':id', product.slug);
+                            suggestionItem.textContent = product.title;
+                            suggestionsContainer.appendChild(suggestionItem);
+                        });
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Error fetching suggestions:', error);
+                });
+        });
+    </script>
     @section('scripts')
     @show
 

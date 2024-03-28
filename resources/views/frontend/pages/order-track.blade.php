@@ -2,38 +2,75 @@
 
 @section('title','E-SHOP || Order Track Page')
 
-@section('main-content')
+@section('content')
     <!-- Breadcrumbs -->
-    <div class="breadcrumbs">
+
+
+
+
+<div class="site__body">
+
+    <div class="block-header block-header--has-breadcrumb">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="bread-inner">
-                        <ul class="bread-list">
-                            <li><a href="{{route('home')}}">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="javascript:void(0);">Order Track</a></li>
-                        </ul>
+            <div class="block-header__body">
+                <nav class="breadcrumb block-header__breadcrumb" aria-label="breadcrumb">
+                    <ol class="breadcrumb__list">
+                        <li class="breadcrumb__spaceship-safe-area" role="presentation"></li>
+                        <li class="breadcrumb__item breadcrumb__item--parent breadcrumb__item--first">
+                            <a href="{{ route('home') }}" class="breadcrumb__item-link">Home</a>
+                        </li>
+
+                        <li class="breadcrumb__item breadcrumb__item--current breadcrumb__item--last" aria-current="page">
+                            <span class="breadcrumb__item-link">Track Order</span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="block-space block-space--layout--after-header"></div>
+    <div class="block">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                    <div class="card ml-md-3 mr-md-3">
+                        <div class="card-body card-body--padding--2">
+                            <h1 class="card-title card-title--lg">Track Order</h1>
+
+                            @if(session('success'))
+                                <div class="alert alert-success mb-3">{{session('success')}}</div>
+                            @endif
+
+                            @if(session('error'))
+                                <div class="alert alert-danger mb-3">{{session('error')}}</div>
+
+                            @endif
+                            <p class="mb-4">
+                                To track your order please enter your Order ID in the box below and press the "Track" button. This was given
+                to you on your receipt and in the confirmation email you should have received
+                            </p>
+                            <form  action="{{route('product.track.order')}}" method="post">@csrf
+                                <div class="form-group">
+                                    <label for="track-order-id">Order ID</label>
+                                    <input id="track-order-id" type="text" class="form-control" placeholder="Order Number" name="order_number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="track-email">Email address</label>
+                                    <input id="track-email" type="email" class="form-control" placeholder="Email address">
+                                </div>
+                                <div class="form-group pt-4 mb-1">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Track</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Breadcrumbs -->
-<section class="tracking_box_area section_gap py-5">
-    <div class="container">
-        <div class="tracking_box_inner">
-            <p>To track your order please enter your Order ID in the box below and press the "Track" button. This was given
-                to you on your receipt and in the confirmation email you should have received.</p>
-            <form class="row tracking_form my-4" action="{{route('product.track.order')}}" method="post" novalidate="novalidate">
-              @csrf
-                <div class="col-md-8 form-group">
-                    <input type="text" class="form-control p-2"  name="order_number" placeholder="Enter your order number">
-                </div>
-                <div class="col-md-8 form-group">
-                    <button type="submit" value="submit" class="btn submit_btn">Track Order</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
+    <div class="block-space block-space--layout--before-footer"></div>
+</div>
+
+
 @endsection
