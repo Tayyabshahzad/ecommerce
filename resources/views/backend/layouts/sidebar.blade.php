@@ -127,7 +127,7 @@
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
     </li>
-    
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -213,6 +213,12 @@
         <a class="nav-link" href="{{route('settings')}}">
             <i class="fas fa-cog"></i>
             <span>Settings</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('team')}}">
+            <i class="fas fa-cog"></i>
+            <span>Team</span></a>
     </li>
 
     <!-- Sidebar Toggler (Sidebar) -->

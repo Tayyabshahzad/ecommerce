@@ -15,459 +15,341 @@
 	<meta property="og:description" content="{{$product_detail->description}}">
 @endsection
 @section('title','E-SHOP || PRODUCT DETAIL')
-@section('main-content')
-
-		<!-- Breadcrumbs -->
-		<div class="breadcrumbs">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="bread-inner">
-							<ul class="bread-list">
-								<li><a href="{{route('home')}}">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="">Shop Details</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Breadcrumbs -->
-				
-		<!-- Shop Single -->
-		<section class="shop single section">
-					<div class="container">
-						<div class="row"> 
-							<div class="col-12">
-								<div class="row">
-									<div class="col-lg-6 col-12">
-										<!-- Product Slider -->
-										<div class="product-gallery">
-											<!-- Images slider -->
-											<div class="flexslider-thumbnails">
-												<ul class="slides">
-													@php 
-														$photo=explode(',',$product_detail->photo);
-													// dd($photo);
-													@endphp
-													@foreach($photo as $data)
-														<li data-thumb="{{$data}}" rel="adjustX:10, adjustY:">
-															<img src="{{$data}}" alt="{{$data}}">
-														</li>
-													@endforeach
-												</ul>
-											</div>
-											<!-- End Images slider -->
-										</div>
-										<!-- End Product slider -->
-									</div>
-									<div class="col-lg-6 col-12">
-										<div class="product-des">
-											<!-- Description -->
-											<div class="short">
-												<h4>{{$product_detail->title}}</h4>
-												<div class="rating-main">
-													<ul class="rating">
-														@php
-															$rate=ceil($product_detail->getReview->avg('rate'))
-														@endphp
-															@for($i=1; $i<=5; $i++)
-																@if($rate>=$i)
-																	<li><i class="fa fa-star"></i></li>
-																@else 
-																	<li><i class="fa fa-star-o"></i></li>
-																@endif
-															@endfor
-													</ul>
-													<a href="#" class="total-review">({{$product_detail['getReview']->count()}}) Review</a>
-                                                </div>
-                                                @php 
-                                                    $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
-                                                @endphp
-												<p class="price"><span class="discount">${{number_format($after_discount,2)}}</span><s>${{number_format($product_detail->price,2)}}</s> </p>
-												<p class="description">{!!($product_detail->summary)!!}</p>
-											</div>
-											<!--/ End Description -->
-											<!-- Color -->
-											{{-- <div class="color">
-												<h4>Available Options <span>Color</span></h4>
-												<ul>
-													<li><a href="#" class="one"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="two"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="three"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="four"><i class="ti-check"></i></a></li>
-												</ul>
-											</div> --}}
-											<!--/ End Color -->
-											<!-- Size -->
-											@if($product_detail->size)
-												<div class="size mt-4">
-													<h4>Size</h4>
-													<ul>
-														@php 
-															$sizes=explode(',',$product_detail->size);
-															// dd($sizes);
-														@endphp
-														@foreach($sizes as $size)
-														<li><a href="#" class="one">{{$size}}</a></li>
-														@endforeach
-													</ul>
-												</div>
-											@endif
-											<!--/ End Size -->
-											<!-- Product Buy -->
-											<div class="product-buy">
-												<form action="{{route('single-add-to-cart')}}" method="POST">
-													@csrf 
-													<div class="quantity">
-														<h6>Quantity :</h6>
-														<!-- Input Order -->
-														<div class="input-group">
-															<div class="button minus">
-																<button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-																	<i class="ti-minus"></i>
-																</button>
-															</div>
-															<input type="hidden" name="slug" value="{{$product_detail->slug}}">
-															<input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1" id="quantity">
-															<div class="button plus">
-																<button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-																	<i class="ti-plus"></i>
-																</button>
-															</div>
-														</div>
-													<!--/ End Input Order -->
-													</div>
-													<div class="add-to-cart mt-4">
-														<button type="submit" class="btn">Add to cart</button>
-														<a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="btn min"><i class="ti-heart"></i></a>
-													</div>
-												</form>
-
-												<p class="cat">Category :<a href="{{route('product-cat',$product_detail->cat_info['slug'])}}">{{$product_detail->cat_info['title']}}</a></p>
-												@if($product_detail->sub_cat_info)
-												<p class="cat mt-1">Sub Category :<a href="{{route('product-sub-cat',[$product_detail->cat_info['slug'],$product_detail->sub_cat_info['slug']])}}">{{$product_detail->sub_cat_info['title']}}</a></p>
-												@endif
-												<p class="availability">Stock : @if($product_detail->stock>0)<span class="badge badge-success">{{$product_detail->stock}}</span>@else <span class="badge badge-danger">{{$product_detail->stock}}</span>  @endif</p>
-											</div>
-											<!--/ End Product Buy -->
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-12">
-										<div class="product-info">
-											<div class="nav-main">
-												<!-- Tab Nav -->
-												<ul class="nav nav-tabs" id="myTab" role="tablist">
-													<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a></li>
-													<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a></li>
-												</ul>
-												<!--/ End Tab Nav -->
-											</div>
-											<div class="tab-content" id="myTabContent">
-												<!-- Description Tab -->
-												<div class="tab-pane fade show active" id="description" role="tabpanel">
-													<div class="tab-single">
-														<div class="row">
-															<div class="col-12">
-																<div class="single-des">
-																	<p>{!! ($product_detail->description) !!}</p>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!--/ End Description Tab -->
-												<!-- Reviews Tab -->
-												<div class="tab-pane fade" id="reviews" role="tabpanel">
-													<div class="tab-single review-panel">
-														<div class="row">
-															<div class="col-12">
-																
-																<!-- Review -->
-																<div class="comment-review">
-																	<div class="add-review">
-																		<h5>Add A Review</h5>
-																		<p>Your email address will not be published. Required fields are marked</p>
-																	</div>
-																	<h4>Your Rating <span class="text-danger">*</span></h4>
-																	<div class="review-inner">
-																			<!-- Form -->
-																@auth
-																<form class="form" method="post" action="{{route('review.store',$product_detail->slug)}}">
-                                                                    @csrf
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12 col-12">
-                                                                            <div class="rating_box">
-                                                                                  <div class="star-rating">
-                                                                                    <div class="star-rating__wrap">
-                                                                                      <input class="star-rating__input" id="star-rating-5" type="radio" name="rate" value="5">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-5" title="5 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-4" type="radio" name="rate" value="4">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-4" title="4 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-3" type="radio" name="rate" value="3">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-3" title="3 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-2" type="radio" name="rate" value="2">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-2" title="2 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-1" type="radio" name="rate" value="1">
-																					  <label class="star-rating__ico fa fa-star-o" for="star-rating-1" title="1 out of 5 stars"></label>
-																					  @error('rate')
-																						<span class="text-danger">{{$message}}</span>
-																					  @enderror
-                                                                                    </div>
-                                                                                  </div>
-                                                                            </div>
-                                                                        </div>
-																		<div class="col-lg-12 col-12">
-																			<div class="form-group">
-																				<label>Write a review</label>
-																				<textarea name="review" rows="6" placeholder="" ></textarea>
-																			</div>
-																		</div>
-																		<div class="col-lg-12 col-12">
-																			<div class="form-group button5">	
-																				<button type="submit" class="btn">Submit</button>
-																			</div>
-																		</div>
-																	</div>
-																</form>
-																@else 
-																<p class="text-center p-5">
-																	You need to <a href="{{route('login.form')}}" style="color:rgb(54, 54, 204)">Login</a> OR <a style="color:blue" href="{{route('register.form')}}">Register</a>
-
-																</p>
-																<!--/ End Form -->
-																@endauth
-																	</div>
-																</div>
-															
-																<div class="ratting-main">
-																	<div class="avg-ratting">
-																		{{-- @php 
-																			$rate=0;
-																			foreach($product_detail->rate as $key=>$rate){
-																				$rate +=$rate
-																			}
-																		@endphp --}}
-																		<h4>{{ceil($product_detail->getReview->avg('rate'))}} <span>(Overall)</span></h4>
-																		<span>Based on {{$product_detail->getReview->count()}} Comments</span>
-																	</div>
-																	@foreach($product_detail['getReview'] as $data)
-																	<!-- Single Rating -->
-																	<div class="single-rating">
-																		<div class="rating-author">
-																			@if($data->user_info['photo'])
-																			<img src="{{$data->user_info['photo']}}" alt="{{$data->user_info['photo']}}">
-																			@else 
-																			<img src="{{asset('backend/img/avatar.png')}}" alt="Profile.jpg">
-																			@endif
-																		</div>
-																		<div class="rating-des">
-																			<h6>{{$data->user_info['name']}}</h6>
-																			<div class="ratings">
-
-																				<ul class="rating">
-																					@for($i=1; $i<=5; $i++)
-																						@if($data->rate>=$i)
-																							<li><i class="fa fa-star"></i></li>
-																						@else 
-																							<li><i class="fa fa-star-o"></i></li>
-																						@endif
-																					@endfor
-																				</ul>
-																				<div class="rate-count">(<span>{{$data->rate}}</span>)</div>
-																			</div>
-																			<p>{{$data->review}}</p>
-																		</div>
-																	</div>
-																	<!--/ End Single Rating -->
-																	@endforeach
-																</div>
-																
-																<!--/ End Review -->
-																
-															</div>
-														</div>
-													</div>
-												</div>
-												<!--/ End Reviews Tab -->
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-		</section>
-		<!--/ End Shop Single -->
-		
-		<!-- Start Most Popular -->
-	<div class="product-area most-popular related-product section">
+@section('content')
+<div class="site__body">
+    <div class="block-header block-header--has-breadcrumb">
         <div class="container">
-            <div class="row">
-				<div class="col-12">
-					<div class="section-title">
-						<h2>Related Products</h2>
-					</div>
-				</div>
-            </div>
-            <div class="row">
-                {{-- {{$product_detail->rel_prods}} --}}
-                <div class="col-12">
-                    <div class="owl-carousel popular-slider">
-                        @foreach($product_detail->rel_prods as $data)
-                            @if($data->id !==$product_detail->id)
-                                <!-- Start Single Product -->
-                                <div class="single-product">
-                                    <div class="product-img">
-										<a href="{{route('product-detail',$data->slug)}}">
-											@php 
-												$photo=explode(',',$data->photo);
-											@endphp
-                                            <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                            <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                            <span class="price-dec">{{$data->discount}} % Off</span>
-                                                                    {{-- <span class="out-of-stock">Hot</span> --}}
-                                        </a>
-                                        <div class="button-head">
-                                            <div class="product-action">
-                                                <a data-toggle="modal" data-target="#modelExample" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                                                <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-                                            </div>
-                                            <div class="product-action-2">
-                                                <a title="Add to cart" href="#">Add to cart</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3><a href="{{route('product-detail',$data->slug)}}">{{$data->title}}</a></h3>
-                                        <div class="product-price">
-                                            @php 
-                                                $after_discount=($data->price-(($data->discount*$data->price)/100));
-                                            @endphp
-                                            <span class="old">${{number_format($data->price,2)}}</span>
-                                            <span>${{number_format($after_discount,2)}}</span>
-                                        </div>
-                                      
-                                    </div>
-                                </div>
-                                <!-- End Single Product -->
-                                	
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
+            <div class="block-header__body">
+                <nav class="breadcrumb block-header__breadcrumb" aria-label="breadcrumb">
+                    <ol class="breadcrumb__list">
+                        <li class="breadcrumb__spaceship-safe-area" role="presentation"></li>
+                        <li class="breadcrumb__item breadcrumb__item--parent breadcrumb__item--first">
+                            <a href="index.html" class="breadcrumb__item-link">Home</a>
+                        </li>
+                        <li class="breadcrumb__item breadcrumb__item--parent">
+                            <a href="" class="breadcrumb__item-link">Breadcrumb</a>
+                        </li>
+                        <li class="breadcrumb__item breadcrumb__item--current breadcrumb__item--last" aria-current="page">
+                            <span class="breadcrumb__item-link">Product Detail</span>
+                        </li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
-	<!-- End Most Popular Area -->
-	
+    <div class="block-split">
+        <div class="container">
+            <div class="block-split__row row no-gutters">
+                <div class="block-split__item block-split__item-content col-auto">
+                    <div class="product product--layout--full">
+                        <div class="product__body">
+                            <div class="product__card product__card--one"></div>
+                            <div class="product__card product__card--two"></div>
+                            <div class="product-gallery product-gallery--layout--product-full product__gallery" data-layout="product-full">
+                                <div class="product-gallery__featured">
+                                    <button type="button" class="product-gallery__zoom">
+                                        <svg width="24" height="24">
+                                            <path d="M15,18c-2,0-3.8-0.6-5.2-1.7c-1,1.3-2.1,2.8-3.5,4.6c-2.2,2.8-3.4,1.9-3.4,1.9s-0.6-0.3-1.1-0.7
+                                                c-0.4-0.4-0.7-1-0.7-1s-0.9-1.2,1.9-3.3c1.8-1.4,3.3-2.5,4.6-3.5C6.6,12.8,6,11,6,9c0-5,4-9,9-9s9,4,9,9S20,18,15,18z M15,2
+                                                c-3.9,0-7,3.1-7,7s3.1,7,7,7s7-3.1,7-7S18.9,2,15,2z M16,13h-2v-3h-3V8h3V5h2v3h3v2h-3V13z" />
+                                        </svg>
+                                    </button>
 
-  <!-- Modal -->
-  <div class="modal fade" id="modelExample" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
-            </div>
-            <div class="modal-body">
-                <div class="row no-gutters">
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <!-- Product Slider -->
-                            <div class="product-gallery">
-                                <div class="quickview-slider-active">
-                                    <div class="single-slider">
-                                        <img src="images/modal1.png" alt="#">
+                                    @php
+                                        $photo=explode(',',$product_detail->photo);
+                                    @endphp
+
+                                    <div class="owl-carousel">
+
+                                        @foreach($photo as $data)
+                                            <a class="image image--type--product" href="{{$data}}" target="_blank"      data-width="700" data-height="700">
+                                                <div class="image__body">
+                                                    <img class="image__tag" src="{{$data}}" alt="">
+                                                </div>
+                                            </a>
+                                         @endforeach
+
                                     </div>
-                                    <div class="single-slider">
-                                        <img src="images/modal2.png" alt="#">
-                                    </div>
-                                    <div class="single-slider">
-                                        <img src="images/modal3.png" alt="#">
-                                    </div>
-                                    <div class="single-slider">
-                                        <img src="images/modal4.png" alt="#">
+                                </div>
+                                <div class="product-gallery__thumbnails">
+                                    <div class="owl-carousel">
+                                        @php
+                                            $photo=explode(',',$product_detail->photo);
+                                        @endphp
+                                        @foreach($photo as $data)
+                                            <div class="product-gallery__thumbnails-item image image--type--product">
+                                                <div class="image__body">
+                                                    <img class="image__tag" src="{{$data}}" alt="">
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
-                        <!-- End Product slider -->
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <div class="quickview-content">
-                            <h2>Flared Shift Dress</h2>
-                            <div class="quickview-ratting-review">
-                                <div class="quickview-ratting-wrap">
-                                    <div class="quickview-ratting">
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                            <div class="product__header">
+                                <h1 class="product__title"> {{$product_detail->title}} </h1>
+                                <div class="product__subtitle">
+                                    <div class="product__rating">
+                                        @php
+                                            $rate=ceil($product_detail->getReview->avg('rate'))
+                                        @endphp
+                                        <div class="product__rating-stars">
+                                            <div class="rating">
+                                                <div class="rating__body">
+                                                    @for($i=1; $i<=5; $i++)
+                                                        @if($rate>=$i)
+                                                        <div class="rating__star rating__star--active"></div>
+                                                        @else
+                                                        <div class="rating__star"></div>
+                                                        @endif
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product__rating-label"><a href=""> {{$product_detail['getReview']->count()}} reviews</a></div>
                                     </div>
-                                    <a href="#"> (1 customer review)</a>
-                                </div>
-                                <div class="quickview-stock">
-                                    <span><i class="fa fa-check-circle-o"></i> in stock</span>
-                                </div>
-                            </div>
-                            <h3>$29.00</h3>
-                            <div class="quickview-peragraph">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
-                            </div>
-                            <div class="size">
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <h5 class="title">Size</h5>
-                                        <select>
-                                            <option selected="selected">s</option>
-                                            <option>m</option>
-                                            <option>l</option>
-                                            <option>xl</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <h5 class="title">Color</h5>
-                                        <select>
-                                            <option selected="selected">orange</option>
-                                            <option>purple</option>
-                                            <option>black</option>
-                                            <option>pink</option>
-                                        </select>
+                                    <div class="status-badge status-badge--style--success product__fit status-badge--has-icon status-badge--has-text">
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="quantity">
-                                <!-- Input Order -->
-                                <div class="input-group">
-                                    <div class="button minus">
-                                        <button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                            <i class="ti-minus"></i>
-                                        </button>
-									</div>
-                                    <input type="text" name="qty" class="input-number"  data-min="1" data-max="1000" value="1">
-                                    <div class="button plus">
-                                        <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-                                            <i class="ti-plus"></i>
-                                        </button>
-                                    </div>
+                            <div class="product__main">
+
+                                <div class="product__features">
+                                    <p>
+                                        {!!($product_detail->summary)!!}
+                                    </p>
                                 </div>
-                                <!--/ End Input Order -->
                             </div>
-                            <div class="add-to-cart">
-                                <a href="#" class="btn">Add to cart</a>
-                                <a href="#" class="btn min"><i class="ti-heart"></i></a>
-                                <a href="#" class="btn min"><i class="fa fa-compress"></i></a>
+                            <div class="product__info">
+                                <div class="product__info-card">
+                                    <div class="product__info-body">
+                                        <div class="product__badge tag-badge tag-badge--sale">  {{$product_detail->discount}} % Off</div>
+                                        <div class="product__prices-stock">
+                                            @php
+                                                $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
+                                            @endphp
+                                            <div class="product__prices">
+                                                <div class="product__price product__price--current">£{{number_format($after_discount,2)}} </div>
+                                                <div class="product-card__price product-card__price--old"> <s>£{{number_format($product_detail->price,2)}}</s>  </div>
+                                            </div>
+
+                                            <div class="status-badge status-badge--style--success product__stock status-badge--has-text">
+                                                <div class="status-badge__body">
+                                                    <div class="status-badge__text"> @if($product_detail->stock>0) In Stock @else Out Stock @endif </div>
+                                                    <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="In&#x20;Stock"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product__meta">
+                                            <table>
+                                                <tr>
+                                                    <th>SKU</th>
+                                                    <td>PF124</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Categories</th>
+                                                    <td><a href="">{{$product_detail->cat_info['title']}}
+                                                    </a></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Country</th>
+                                                    <td>UK</td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="product-form product__form">
+                                        <div class="product-form__body">
+
+
+                                        </div>
+                                    </div>
+                                    <form action="{{route('single-add-to-cart')}}" method="POST">@csrf
+                                    <div class="product__actions">
+
+                                        <div class="product__actions-item product__actions-item--quantity">
+                                            <div class="input-number">
+                                                <input class="input-number__input form-control form-control-lg" name="quant[1]" type="number" min="1" value="1">
+                                                <input type="hidden" name="slug" value="{{$product_detail->slug}}">
+                                                <div class="input-number__add"></div>
+                                                <div class="input-number__sub"></div>
+                                            </div>
+                                        </div>
+                                        <div class="product__actions-item product__actions-item--addtocart">
+                                            <button class="btn btn-primary btn-lg btn-block"  >Add to cart</button>
+                                        </div>
+
+                                        <div class="product__actions-divider"></div>
+                                        <a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="product__actions-item product__actions-item--wishlist" type="button">
+                                            <svg width="16" height="16">
+                                                <path d="M13.9,8.4l-5.4,5.4c-0.3,0.3-0.7,0.3-1,0L2.1,8.4c-1.5-1.5-1.5-3.8,0-5.3C2.8,2.4,3.8,2,4.8,2s1.9,0.4,2.6,1.1L8,3.7
+l0.6-0.6C9.3,2.4,10.3,2,11.3,2c1,0,1.9,0.4,2.6,1.1C15.4,4.6,15.4,6.9,13.9,8.4z" />
+                                            </svg>
+                                            <span>Add to wishlist</span>
+                                        </a>
+
+                                    </div>
+                                    </form>
+
+                                </div>
+                                <div class="product__shop-features shop-features">
+
+                                </div>
                             </div>
-                            <div class="default-social">
-                                <h4 class="share-now">Share:</h4>
-                                <ul>
-                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                    <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <div class="product__tabs product-tabs product-tabs--layout--full">
+                                <ul class="product-tabs__list">
+                                    <li class="product-tabs__item product-tabs__item--active"><a href="#product-tab-description">Description</a></li>
+
+
                                 </ul>
+                                <div class="product-tabs__content">
+                                    <div class="product-tabs__pane product-tabs__pane--active" id="product-tab-description">
+                                        <div class="typography">
+                                            <p>
+                                                {!! ($product_detail->description) !!}
+                                            </p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="product-tabs__pane" id="product-tab-reviews">
+                                        <div class="reviews-view">
+
+                                            <form class="reviews-view__form">
+                                                <h3 class="reviews-view__header">Write A Review</h3>
+                                                <div class="row">
+                                                    <div class="col-xxl-8 col-xl-10 col-lg-9 col-12">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="review-stars">Review Stars</label>
+                                                                <select id="review-stars" class="form-control">
+                                                                    <option>5 Stars Rating</option>
+                                                                    <option>4 Stars Rating</option>
+                                                                    <option>3 Stars Rating</option>
+                                                                    <option>2 Stars Rating</option>
+                                                                    <option>1 Stars Rating</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="review-author">Your Name</label>
+                                                                <input type="text" class="form-control" id="review-author" placeholder="Your Name">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="review-email">Email Address</label>
+                                                                <input type="text" class="form-control" id="review-email" placeholder="Email Address">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="review-text">Your Review</label>
+                                                            <textarea class="form-control" id="review-text" rows="6"></textarea>
+                                                        </div>
+                                                        <div class="form-group mb-0 mt-4">
+                                                            <button type="submit" class="btn btn-primary">Post Your Review</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-space block-space--layout--divider-nl"></div>
+                    <div class="block block-products-carousel" data-layout="grid-5">
+                        <div class="container">
+                            <div class="section-header">
+                                <div class="section-header__body">
+                                    <h2 class="section-header__title">Related Products</h2>
+                                    <div class="section-header__spring"></div>
+                                    <div class="section-header__arrows">
+                                        <div class="arrow section-header__arrow section-header__arrow--prev arrow--prev">
+                                            <button class="arrow__button" type="button"><svg width="7" height="11">
+                                                    <path d="M6.7,0.3L6.7,0.3c-0.4-0.4-0.9-0.4-1.3,0L0,5.5l5.4,5.2c0.4,0.4,0.9,0.3,1.3,0l0,0c0.4-0.4,0.4-1,0-1.3l-4-3.9l4-3.9C7.1,1.2,7.1,0.6,6.7,0.3z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="arrow section-header__arrow section-header__arrow--next arrow--next">
+                                            <button class="arrow__button" type="button"><svg width="7" height="11">
+                                                    <path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+                                                C-0.1,9.8-0.1,10.4,0.3,10.7z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="section-header__divider"></div>
+                                </div>
+                            </div>
+                            <div class="block-products-carousel__carousel">
+                                <div class="block-products-carousel__carousel-loader"></div>
+                                <div class="owl-carousel">
+                                    @foreach($product_detail->rel_prods as $data)
+                                        @if($data->id !==$product_detail->id)
+                                            <div class="block-products-carousel__column">
+                                                <div class="block-products-carousel__cell">
+                                                    <div class="product-card product-card--layout--grid">
+                                                        <div class="product-card__actions-list">
+
+                                                            <a href="{{route('add-to-wishlist',$data->slug)}}" class="product-card__action product-card__action--wishlist" type="button" aria-label="Add to wish list">
+                                                                <svg width="16" height="16">
+                                                                    <path d="M13.9,8.4l-5.4,5.4c-0.3,0.3-0.7,0.3-1,0L2.1,8.4c-1.5-1.5-1.5-3.8,0-5.3C2.8,2.4,3.8,2,4.8,2s1.9,0.4,2.6,1.1L8,3.7
+                                                                    l0.6-0.6C9.3,2.4,10.3,2,11.3,2c1,0,1.9,0.4,2.6,1.1C15.4,4.6,15.4,6.9,13.9,8.4z" />
+                                                                </svg>
+                                                            </a>
+
+                                                        </div>
+                                                        <div class="product-card__image">
+                                                            <div class="image image--type--product">
+                                                                <a href="{{route('product-detail',$data->slug)}}" class="image__body">
+                                                                    @php
+												                        $photo=explode(',',$data->photo);
+											                        @endphp
+                                                                    <img class="image__tag" src="{{$photo[0]}}" alt="{{$photo[0]}}" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <div class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
+                                                                <div class="status-badge__body">
+                                                                    <div class="status-badge__icon"><svg width="13" height="13">
+                                                                            <path d="M12,4.4L5.5,11L1,6.5l1.4-1.4l3.1,3.1L10.6,3L12,4.4z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                    <div class="status-badge__text"></div>
+                                                                    <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="Part&#x20;Fit&#x20;for&#x20;2011&#x20;Ford&#x20;Focus&#x20;S"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-card__info">
+                                                            <div class="product-card__meta"><span class="product-card__meta-title"></div>
+                                                            <div class="product-card__name">
+                                                                <div>
+                                                                    <div class="product-card__badges">
+                                                                        <div class="tag-badge tag-badge--sale">{{$data->discount}} % Off</div>
+                                                                    </div>
+                                                                    <a href="{{route('product-detail',$data->slug)}}"> {{$data->title}} </a>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="product-card__footer">
+                                                            <div class="product-card__prices">
+                                                                @php
+                                                                    $after_discount=($data->price-(($data->discount*$data->price)/100));
+                                                                @endphp
+
+                                                                <div class="product-card__price product-card__price--current">£{{number_format($after_discount,2)}} </div>
+                                                                <div class="product-card__price product-card__price--old">£{{number_format($data->price,2)}} </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -475,93 +357,10 @@
             </div>
         </div>
     </div>
+    <div class="block-space block-space--layout--before-footer"></div>
 </div>
-<!-- Modal end -->
-
 @endsection
-@push('styles')
-	<style>
-		/* Rating */
-		.rating_box {
-		display: inline-flex;
-		}
 
-		.star-rating {
-		font-size: 0;
-		padding-left: 10px;
-		padding-right: 10px;
-		}
-
-		.star-rating__wrap {
-		display: inline-block;
-		font-size: 1rem;
-		}
-
-		.star-rating__wrap:after {
-		content: "";
-		display: table;
-		clear: both;
-		}
-
-		.star-rating__ico {
-		float: right;
-		padding-left: 2px;
-		cursor: pointer;
-		color: #F7941D;
-		font-size: 16px;
-		margin-top: 5px;
-		}
-
-		.star-rating__ico:last-child {
-		padding-left: 0;
-		}
-
-		.star-rating__input {
-		display: none;
-		}
-
-		.star-rating__ico:hover:before,
-		.star-rating__ico:hover ~ .star-rating__ico:before,
-		.star-rating__input:checked ~ .star-rating__ico:before {
-		content: "\F005";
-		}
-
-	</style>
-@endpush
-@push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-    {{-- <script>
-        $('.cart').click(function(){
-            var quantity=$('#quantity').val();
-            var pro_id=$(this).data('id');
-            // alert(quantity);
-            $.ajax({
-                url:"{{route('add-to-cart')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    quantity:quantity,
-                    pro_id:pro_id
-                },
-                success:function(response){
-                    console.log(response);
-					if(typeof(response)!='object'){
-						response=$.parseJSON(response);
-					}
-					if(response.status){
-						swal('success',response.msg,'success').then(function(){
-							document.location.href=document.location.href;
-						});
-					}
-					else{
-                        swal('error',response.msg,'error').then(function(){
-							document.location.href=document.location.href;
-						});
-                    }
-                }
-            })
-        });
-    </script> --}}
-
-@endpush
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+@endsection

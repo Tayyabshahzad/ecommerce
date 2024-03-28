@@ -2,100 +2,74 @@
 
 @section('title','E-SHOP || About Us')
 
-@section('main-content')
+@section('content')
+    @php
+        $settings=DB::table('settings')->get();
+    @endphp
+<div class="site__body">
+    <div class="about">
+        <div class="about__body">
+            <div class="about__image">
+                <div class="about__image-bg" style="background-image: url('@foreach($settings as $data) {{$data->photo}} @endforeach');"></div>
+                <div class="decor about__image-decor decor--type--bottom">
+                    <div class="decor__body">
+                        <div class="decor__start"></div>
+                        <div class="decor__end"></div>
+                        <div class="decor__center"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="about__card">
+                <div class="about__card-title">About Us</div>
+                <div class="about__card-text">
+                    @foreach($settings as $data) {{$data->description}} @endforeach
+                </div>
 
-	<!-- Breadcrumbs -->
-	<div class="breadcrumbs">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="bread-inner">
-						<ul class="bread-list">
-							<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-							<li class="active"><a href="blog-single.html">About Us</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Breadcrumbs -->
+                <div class="about__card-signature">
+                    <img src="@foreach($settings as $data) {{$data->logo}} @endforeach" width="160" height="55" alt="">
+                </div>
+            </div>
+            <div class="about__indicators">
+                <div class="about__indicators-body">
 
-	<!-- About Us -->
-	<section class="about-us section">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-6 col-12">
-						<div class="about-content">
-							@php
-								$settings=DB::table('settings')->get();
-							@endphp
-							<h3>Welcome To <span>Eshop</span></h3>
-							<p>@foreach($settings as $data) {{$data->description}} @endforeach</p>
-							<div class="button">
-								<a href="{{route('blog')}}" class="btn">Our Blog</a>
-								<a href="{{route('contact')}}" class="btn primary">Contact Us</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 col-12">
-						<div class="about-img overlay">
-							{{-- <div class="button">
-								<a href="https://www.youtube.com/watch?v=nh2aYrGMrIE" class="video video-popup mfp-iframe"><i class="fa fa-play"></i></a>
-							</div> --}}
-							<img src="@foreach($settings as $data) {{$data->photo}} @endforeach" alt="@foreach($settings as $data) {{$data->photo}} @endforeach">
-						</div>
-					</div>
-				</div>
-			</div>
-	</section>
-	<!-- End About Us -->
+                    <div class="about__indicators-item">
+                        <div class="about__indicators-item-value">  {{ number_format($productsCount) }}   </div>
+                        <div class="about__indicators-item-title">Original Products</div>
+                    </div>
+                    <div class="about__indicators-item">
+                        <div class="about__indicators-item-value">  {{ number_format($usersCount) }}  </div>
+                        <div class="about__indicators-item-title">Satisfied customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block-space block-space--layout--divider-xl"></div>
+    <div class="block block-teammates">
+        <div class="container container--max--xl">
+            <div class="block-teammates__title">Professional Team</div>
+            <div class="block-teammates__subtitle">Meet this is our professional team.</div>
+            <div class="block-teammates__list">
+                <div class="owl-carousel">
+                    @foreach ($teams as  $team)
+                        <div class="block-teammates__item teammate">
+                            <div class="teammate__avatar">
+                                <img src="{{ $team->photo }}" alt="">
+                            </div>
+                            <div class="teammate__info">
+                                <div class="teammate__name">{{ $team->name }}</div>
+                                <div class="teammate__position">{{ $team->role }}</div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block-space block-space--layout--divider-xl"></div>
+
+    <div class="block-space block-space--layout--before-footer"></div>
+</div>
 
 
-	<!-- Start Shop Services Area -->
-	<section class="shop-services section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-rocket"></i>
-						<h4>Free shiping</h4>
-						<p>Orders over $100</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-reload"></i>
-						<h4>Free Return</h4>
-						<p>Within 30 days returns</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-lock"></i>
-						<h4>Sucure Payment</h4>
-						<p>100% secure payment</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-tag"></i>
-						<h4>Best Peice</h4>
-						<p>Guaranteed price</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Shop Services Area -->
-
-	@include('frontend.layouts.newsletter')
 @endsection

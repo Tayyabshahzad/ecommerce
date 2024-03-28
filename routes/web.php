@@ -13,6 +13,7 @@
     use App\Http\Controllers\PostCommentController;
     use App\Http\Controllers\CouponController;
     use App\Http\Controllers\PayPalController;
+    use App\Http\Controllers\StripeController;
     use App\Http\Controllers\NotificationController;
     use App\Http\Controllers\HomeController;
     use \UniSharp\LaravelFilemanager\Lfm;
@@ -71,7 +72,7 @@
     Route::post('/add-to-cart', [CartController::class, 'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
     Route::get('cart-delete/{id}', [CartController::class, 'cartDelete'])->name('cart-delete');
     Route::post('cart-update', [CartController::class, 'cartUpdate'])->name('cart.update');
-
+    Route::get('thank-you', [OrderController::class, 'thankYou'])->name('thank.you');
     Route::get('/cart', function () {
         return view('frontend.pages.cart');
     })->name('cart');
@@ -113,9 +114,9 @@
 // Coupon
     Route::post('/coupon-store', [CouponController::class, 'couponStore'])->name('coupon-store');
 // Payment
-    Route::get('payment', [PayPalController::class, 'payment'])->name('payment');
-    Route::get('cancel', [PayPalController::class, 'cancel'])->name('payment.cancel');
-    Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
+    Route::get('payment', [StripeController::class, 'checkout'])->name('payment');
+    Route::get('cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
+    Route::get('payment/success', [StripeController::class, 'success'])->name('payment.success');
 
 
 // Backend section start
@@ -158,6 +159,8 @@
         Route::resource('/coupon', 'CouponController');
         // Settings
         Route::get('settings', [AdminController::class, 'settings'])->name('settings');
+        Route::get('team', [AdminController::class, 'team'])->name('team');
+        Route::post('team/add', [AdminController::class, 'teamAdd'])->name('team.add');
         Route::post('setting/update', [AdminController::class, 'settingsUpdate'])->name('settings.update');
 
         // Notification

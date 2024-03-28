@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Settings;
+use App\Models\Team;
 use App\User;
 use App\Rules\MatchOldPassword;
 use Hash;
@@ -52,6 +53,36 @@ class AdminController extends Controller
         $data=Settings::first();
         return view('backend.setting')->with('data',$data);
     }
+
+    public function team(){
+        $team = Team::get();
+        return view('backend.team')->with('data',$team);
+    }
+
+    public function teamAdd(Request $request){
+
+        $this->validate($request,[
+            'name'=>'required|string',
+            'role'=>'required|string',
+            'photo'=>'required',
+
+        ]);
+
+        $team = new Team;
+        $team->name = $request->name;
+        $team->role = $request->role;
+        $team->photo = $request->photo;
+        $team->save();
+        if($team){
+            request()->session()->flash('success','Team Added');
+        }
+        else{
+            request()->session()->flash('error','Team Not Added');
+        }
+        return redirect()->route('team');
+    }
+
+
 
     public function settingsUpdate(Request $request){
         // return $request->all();

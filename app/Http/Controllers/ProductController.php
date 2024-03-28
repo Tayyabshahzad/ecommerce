@@ -44,6 +44,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+
         // return $request->all();
         $this->validate($request,[
             'title'=>'string|required',
@@ -176,7 +178,7 @@ class ProductController extends Controller
     {
         $product=Product::findOrFail($id);
         $status=$product->delete();
-        
+
         if($status){
             request()->session()->flash('success','Product successfully deleted');
         }

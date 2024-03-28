@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Shipping;
 use App\User;
 use PDF;
@@ -12,7 +13,7 @@ use Notification;
 use Helper;
 use Illuminate\Support\Str;
 use App\Notifications\StatusNotification;
-
+use App\Services\StripeService;
 class OrderController extends Controller
 {
     /**
@@ -44,6 +45,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request,[
             'first_name'=>'string|required',
             'last_name'=>'string|required',
@@ -52,16 +54,17 @@ class OrderController extends Controller
             'coupon'=>'nullable|numeric',
             'phone'=>'numeric|required',
             'post_code'=>'string|nullable',
-            'email'=>'string|required'
+            'email'=>'string|required',
+            'payment_method'=>'required',
         ]);
-        // return $request->all();
+
+        session()->forget('orderDetail');
 
         if(empty(Cart::where('user_id',auth()->user()->id)->where('order_id',null)->first())){
             request()->session()->flash('error','Cart is Empty !');
             return back();
         }
-        // $cart=Cart::get();
-        // // return $cart;
+        $cart=Cart::where('user_id',auth()->user()->id)->get();
         // $cart_index='ORD-'.strtoupper(uniqid());
         // $sub_total=0;
         // foreach($cart as $cart_item){
@@ -118,8 +121,8 @@ class OrderController extends Controller
         }
         // return $order_data['total_amount'];
         $order_data['status']="new";
-        if(request('payment_method')=='paypal'){
-            $order_data['payment_method']='paypal';
+        if(request('payment_method')=='stripe'){
+            $order_data['payment_method']='stripe';
             $order_data['payment_status']='paid';
         }
         else{
@@ -128,6 +131,19 @@ class OrderController extends Controller
         }
         $order->fill($order_data);
         $status=$order->save();
+
+        if ($status) {
+            foreach ($cart as $cart_item) {
+                $order_item = new OrderItem();
+                $order_item->order_id = $order->id; // Associate with the order
+                $order_item->product_id = $cart_item->product_id;
+                $order_item->quantity = $cart_item->quantity;
+                $order_item->price = $cart_item->price;
+                $order_item->amount = $cart_item->amount;
+                $order_item->status = 'new';
+                $order_item->save();
+            }
+        }
         if($order)
         // dd($order->id);
         $users=User::where('role','admin')->first();
@@ -136,19 +152,20 @@ class OrderController extends Controller
             'actionURL'=>route('order.show',$order->id),
             'fas'=>'fa-file-alt'
         ];
-        Notification::send($users, new StatusNotification($details));
-        if(request('payment_method')=='paypal'){
-            return redirect()->route('payment')->with(['id'=>$order->id]);
-        }
-        else{
-            session()->forget('cart');
+      //  Notification::send($users, new StatusNotification($details));
+        request()->session()->flash('orderDetail',$order);
+        if(request('payment_method')=='stripe'){
+            $stripeService = new StripeService($order);
+            $stripeData = $stripeService->checkout();
+            Cart::where('user_id', auth()->user()->id)->where('order_id', null)->delete();
+            return  redirect()->away($stripeData);
+        }else{
+            Cart::where('user_id', auth()->user()->id)->where('order_id', null)->delete();
             session()->forget('coupon');
+            return view('frontend.pages.thank-you',compact('order'));
         }
-        Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
 
-        // dd($users);        
-        request()->session()->flash('success','Your product successfully placed in order');
-        return redirect()->route('home');
+
     }
 
     /**
@@ -250,17 +267,17 @@ class OrderController extends Controller
             elseif($order->status=="process"){
                 request()->session()->flash('success','Your order is under processing please wait.');
                 return redirect()->route('home');
-    
+
             }
             elseif($order->status=="delivered"){
                 request()->session()->flash('success','Your order is successfully delivered.');
                 return redirect()->route('home');
-    
+
             }
             else{
                 request()->session()->flash('error','Your order canceled. please try again');
                 return redirect()->route('home');
-    
+
             }
         }
         else{
@@ -303,5 +320,9 @@ class OrderController extends Controller
             $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
         }
         return $data;
+    }
+
+    public function thankYou(){
+        return view('frontend.pages.thank-you');
     }
 }

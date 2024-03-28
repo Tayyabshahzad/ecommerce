@@ -1,452 +1,377 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-SHOP || PRODUCT PAGE')
+@section('title','PRODUCT PAGE')
 
-@section('main-content')
-	<!-- Breadcrumbs -->
-    <div class="breadcrumbs">
+@section('content')
+@php
+
+     $maxPrice=DB::table('products')->max('price');
+@endphp
+
+<div class="site__body">
+    <div class="block-header block-header--has-breadcrumb block-header--has-title">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="bread-inner">
-                        <ul class="bread-list">
-                            <li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="blog-single.html">Shop Grid</a></li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="block-header__body">
+                <nav class="breadcrumb block-header__breadcrumb" aria-label="breadcrumb">
+                    <ol class="breadcrumb__list">
+                        <li class="breadcrumb__spaceship-safe-area" role="presentation"></li>
+                        <li class="breadcrumb__item breadcrumb__item--parent breadcrumb__item--first">
+                            <a href="{{route('home')}}" class="breadcrumb__item-link">Home</a>
+                        </li>
+
+                        <li class="breadcrumb__item breadcrumb__item--current breadcrumb__item--last" aria-current="page">
+                            <span class="breadcrumb__item-link">Products</span>
+                        </li>
+                        <li class="breadcrumb__title-safe-area" role="presentation"></li>
+                    </ol>
+                </nav>
+                <h1 class="block-header__title">Popular Products</h1>
             </div>
         </div>
     </div>
-    <!-- End Breadcrumbs -->
 
-    <!-- Product Style -->
-    <form action="{{route('shop.filter')}}" method="POST">
-        @csrf
-        <section class="product-area shop-sidebar shop section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-12">
-                        <div class="shop-sidebar">
-                                <!-- Single Widget -->
-                                <div class="single-widget category">
-                                    <h3 class="title">Categories</h3>
-                                    <ul class="categor-list">
-										@php
-											// $category = new Category();
-											$menu=App\Models\Category::getAllParentWithChild();
-										@endphp
-										@if($menu)
-										<li>
-											@foreach($menu as $cat_info)
-													@if($cat_info->child_cat->count()>0)
-														<li><a href="{{route('product-cat',$cat_info->slug)}}">{{$cat_info->title}}</a>
-															<ul>
-																@foreach($cat_info->child_cat as $sub_menu)
-																	<li><a href="{{route('product-sub-cat',[$cat_info->slug,$sub_menu->slug])}}">{{$sub_menu->title}}</a></li>
-																@endforeach
-															</ul>
-														</li>
-													@else
-														<li><a href="{{route('product-cat',$cat_info->slug)}}">{{$cat_info->title}}</a></li>
-													@endif
-											@endforeach
-										</li>
-										@endif
-                                        {{-- @foreach(Helper::productCategoryList('products') as $cat)
-                                            @if($cat->is_parent==1)
-												<li><a href="{{route('product-cat',$cat->slug)}}">{{$cat->title}}</a></li>
-											@endif
-                                        @endforeach --}}
-                                    </ul>
-                                </div>
-                                <!--/ End Single Widget -->
-                                <!-- Shop By Price -->
-                                    <div class="single-widget range">
-                                        <h3 class="title">Shop by Price</h3>
-                                        <div class="price-filter">
-                                            <div class="price-filter-inner">
-                                                @php
-                                                    $max=DB::table('products')->max('price');
-                                                    // dd($max);
-                                                @endphp
-                                                <div id="slider-range" data-min="0" data-max="{{$max}}"></div>
-                                                <div class="product_filter">
-                                                <button type="submit" class="filter_button">Filter</button>
-                                                <div class="label-input">
-                                                    <span>Range:</span>
-                                                    <input style="" type="text" id="amount" readonly/>
-                                                    <input type="hidden" name="price_range" id="price_range" value="@if(!empty($_GET['price'])){{$_GET['price']}}@endif"/>
-                                                </div>
+    <div class="block-split block-split--has-sidebar">
+        <div class="container">
+            <div class="block-split__row row no-gutters">
+                <div class="block-split__item block-split__item-sidebar col-auto">
+                    <div class="sidebar sidebar--offcanvas--mobile">
+                        <div class="sidebar__backdrop"></div>
+                        <div class="sidebar__body">
+                            <div class="sidebar__header">
+                                <div class="sidebar__title">Filters</div>
+                                <button class="sidebar__close" type="button"><svg width="12" height="12">
+                                        <path d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6
+                                c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4
+                                C11.2,9.8,11.2,10.4,10.8,10.8z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="sidebar__content">
+                                <form action="{{route('shop.filter')}}" method="POST">
+                                <div class="widget widget-filters widget-filters--offcanvas--mobile" data-collapse data-collapse-opened-class="filter--opened">
+                                        <div class="widget__header widget-filters__header">
+                                            <h4>Filters</h4>
+                                        </div>
+                                        <div class="widget-filters__list">
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Categories
+                                                        <span class="filter__arrow"><svg width="12px" height="7px">
+                                                                <path d="M0.286,0.273 L0.286,0.273 C-0.070,0.629 -0.075,1.204 0.276,1.565 L5.516,6.993 L10.757,1.565 C11.108,1.204 11.103,0.629 10.747,0.273 L10.747,0.273 C10.385,-0.089 9.796,-0.086 9.437,0.279 L5.516,4.296 L1.596,0.279 C1.237,-0.086 0.648,-0.089 0.286,0.273 Z" />
+                                                            </svg></span>
+                                                    </button>
+                                                    <div class="filter__body" data-collapse-content>
+
+                                                        <div class="filter__container">
+                                                            <div class="filter-categories">
+                                                                <ul class="filter-categories__list">
+                                                                    @php
+                                                                        $menu=App\Models\Category::getAllParentWithChild();
+                                                                    @endphp
+                                                                     @foreach($menu as $cat_info)
+                                                                        <li class="filter-categories__item filter-categories__item--child">
+                                                                            <a href="{{route('product-cat',$cat_info->slug)}}">{{$cat_info->title}}</a>
+
+                                                                        </li>
+                                                                    @endforeach
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div class="widget-filters__item">
+                                                <div class="filter filter--opened" data-collapse-item>
+                                                    <button type="button" class="filter__title" data-collapse-trigger>
+                                                        Price
+                                                        <span class="filter__arrow"><svg width="12px" height="7px">
+                                                                <path d="M0.286,0.273 L0.286,0.273 C-0.070,0.629 -0.075,1.204 0.276,1.565 L5.516,6.993 L10.757,1.565 C11.108,1.204 11.103,0.629 10.747,0.273 L10.747,0.273 C10.385,-0.089 9.796,-0.086 9.437,0.279 L5.516,4.296 L1.596,0.279 C1.237,-0.086 0.648,-0.089 0.286,0.273 Z" />
+                                                            </svg></span>
+                                                    </button>
+
+
+
+                                                    <div class="filter__body" data-collapse-content>
+                                                        <div class="filter__container">
+                                                            <div class="filter-price" data-min="0" data-max="{{ $maxPrice }}" data-from="{{ $maxPrice/3 }}" data-to="{{ $maxPrice/2 }}">
+                                                                <div class="filter-price__slider"></div>
+                                                                <div class="filter-price__title-button">
+                                                                    <div class="filter-price__title">$<span class="filter-price__min-value"></span> – $<span class="filter-price__max-value"></span></div>
+                                                                    <button type="button" class="btn btn-xs btn-secondary filter-price__button">Filter</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
                                         </div>
 
+                                </div>
+                                </form>
+                                <div class="card widget widget-products d-none d-lg-block">
+                                    <div class="widget__header">
+                                        <h4>Latest Products</h4>
                                     </div>
-                                    <!--/ End Shop By Price -->
-                                <!-- Single Widget -->
-                                <div class="single-widget recent-post">
-                                    <h3 class="title">Recent post</h3>
-                                    {{-- {{dd($recent_products)}} --}}
-                                    @foreach($recent_products as $product)
+                                    <div class="widget-products__list">
+                                        @foreach($recent_products as $product)
                                         <!-- Single Post -->
                                         @php
                                             $photo=explode(',',$product->photo);
                                         @endphp
-                                        <div class="single-post first">
-                                            <div class="image">
-                                                <img src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                            </div>
-                                            <div class="content">
-                                                <h5><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h5>
-                                                @php
-                                                    $org=($product->price-($product->price*$product->discount)/100);
-                                                @endphp
-                                                <p class="price"><del class="text-muted">${{number_format($product->price,2)}}</del>   ${{number_format($org,2)}}  </p>
 
-                                            </div>
-                                        </div>
-                                        <!-- End Single Post -->
-                                    @endforeach
-                                </div>
-                                <!--/ End Single Widget -->
-                                <!-- Single Widget -->
-                                <div class="single-widget category">
-                                    <h3 class="title">Brands</h3>
-                                    <ul class="categor-list">
-                                        @php
-                                            $brands=DB::table('brands')->orderBy('title','ASC')->where('status','active')->get();
-                                        @endphp
-                                        @foreach($brands as $brand)
-                                            <li><a href="{{route('product-brand',$brand->slug)}}">{{$brand->title}}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <!--/ End Single Widget -->
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-8 col-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <!-- Shop Top -->
-                                <div class="shop-top">
-                                    <div class="shop-shorter">
-                                        <div class="single-shorter">
-                                            <label>Show :</label>
-                                            <select class="show" name="show" onchange="this.form.submit();">
-                                                <option value="">Default</option>
-                                                <option value="9" @if(!empty($_GET['show']) && $_GET['show']=='9') selected @endif>09</option>
-                                                <option value="15" @if(!empty($_GET['show']) && $_GET['show']=='15') selected @endif>15</option>
-                                                <option value="21" @if(!empty($_GET['show']) && $_GET['show']=='21') selected @endif>21</option>
-                                                <option value="30" @if(!empty($_GET['show']) && $_GET['show']=='30') selected @endif>30</option>
-                                            </select>
-                                        </div>
-                                        <div class="single-shorter">
-                                            <label>Sort By :</label>
-                                            <select class='sortBy' name='sortBy' onchange="this.form.submit();">
-                                                <option value="">Default</option>
-                                                <option value="title" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='title') selected @endif>Name</option>
-                                                <option value="price" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='price') selected @endif>Price</option>
-                                                <option value="category" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='category') selected @endif>Category</option>
-                                                <option value="brand" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='brand') selected @endif>Brand</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <ul class="view-mode">
-                                        <li class="active"><a href="javascript:void(0)"><i class="fa fa-th-large"></i></a></li>
-                                        <li><a href="{{route('product-lists')}}"><i class="fa fa-th-list"></i></a></li>
-                                    </ul>
-                                </div>
-                                <!--/ End Shop Top -->
-                            </div>
-                        </div>
-                        <div class="row">
-                            {{-- {{$products}} --}}
-                            @if(count($products)>0)
-                                @foreach($products as $product)
-                                    <div class="col-lg-4 col-md-6 col-12">
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <a href="{{route('product-detail',$product->slug)}}">
-                                                    @php
-                                                        $photo=explode(',',$product->photo);
-                                                    @endphp
-                                                    <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                                    <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                                    @if($product->discount)
-                                                                <span class="price-dec">{{$product->discount}} % Off</span>
-                                                    @endif
+                                        <div class="widget-products__item">
+                                            <div class="widget-products__image image image--type--product">
+                                                <a href="{{route('product-detail',$product->slug)}}" class="image__body">
+                                                    <img class="image__tag" src="{{$photo[0]}}" alt="">
                                                 </a>
-                                                <div class="button-head">
-                                                    <div class="product-action">
-                                                        <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                        <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" class="wishlist" data-id="{{$product->id}}"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                                                    </div>
-                                                    <div class="product-action-2">
-                                                        <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
-                                                    </div>
+                                            </div>
+                                            <div class="widget-products__info">
+                                                <div class="widget-products__name">
+                                                    <a href="{{route('product-detail',$product->slug)}}"> {{$product->title}} </a>
+                                                </div>
+                                                <div class="widget-products__prices">
+                                                    @php
+                                                        $org=($product->price-($product->price*$product->discount)/100);
+                                                    @endphp
+                                                    <div class="widget-products__price widget-products__price--current">{{number_format($org,2)}}</div>
                                                 </div>
                                             </div>
-                                            <div class="product-content">
-                                                <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
-                                                @php
-                                                    $after_discount=($product->price-($product->price*$product->discount)/100);
-                                                @endphp
-                                                <span>${{number_format($after_discount,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
-                                            </div>
+                                        </div>
+
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-split__item block-split__item-content col-auto">
+                    <div class="block">
+                        <div class="products-view">
+                            <div class="products-view__options view-options view-options--offcanvas--mobile">
+                                <div class="view-options__body">
+                                    <button type="button" class="view-options__filters-button filters-button">
+                                        <span class="filters-button__icon"><svg width="16" height="16">
+                                                <path d="M7,14v-2h9v2H7z M14,7h2v2h-2V7z M12.5,6C12.8,6,13,6.2,13,6.5v3c0,0.3-0.2,0.5-0.5,0.5h-2
+                                                    C10.2,10,10,9.8,10,9.5v-3C10,6.2,10.2,6,10.5,6H12.5z M7,2h9v2H7V2z M5.5,5h-2C3.2,5,3,4.8,3,4.5v-3C3,1.2,3.2,1,3.5,1h2
+                                                    C5.8,1,6,1.2,6,1.5v3C6,4.8,5.8,5,5.5,5z M0,2h2v2H0V2z M9,9H0V7h9V9z M2,14H0v-2h2V14z M3.5,11h2C5.8,11,6,11.2,6,11.5v3
+                                                C6,14.8,5.8,15,5.5,15h-2C3.2,15,3,14.8,3,14.5v-3C3,11.2,3.2,11,3.5,11z" />
+                                            </svg>
+                                        </span>
+                                        <span class="filters-button__title">Filters</span>
+                                        <span class="filters-button__counter">3</span>
+                                    </button>
+                                    <div class="view-options__layout layout-switcher">
+                                        <div class="layout-switcher__list">
+                                            <button type="button" class="layout-switcher__button layout-switcher__button--active" data-layout="grid" data-with-features="false">
+                                                <svg width="16" height="16">
+                                                    <path d="M15.2,16H9.8C9.4,16,9,15.6,9,15.2V9.8C9,9.4,9.4,9,9.8,9h5.4C15.6,9,16,9.4,16,9.8v5.4C16,15.6,15.6,16,15.2,16z M15.2,7
+                                                                H9.8C9.4,7,9,6.6,9,6.2V0.8C9,0.4,9.4,0,9.8,0h5.4C15.6,0,16,0.4,16,0.8v5.4C16,6.6,15.6,7,15.2,7z M6.2,16H0.8
+                                                            C0.4,16,0,15.6,0,15.2V9.8C0,9.4,0.4,9,0.8,9h5.4C6.6,9,7,9.4,7,9.8v5.4C7,15.6,6.6,16,6.2,16z M6.2,7H0.8C0.4,7,0,6.6,0,6.2V0.8
+                                                    C0,0.4,0.4,0,0.8,0h5.4C6.6,0,7,0.4,7,0.8v5.4C7,6.6,6.6,7,6.2,7z" />
+                                                </svg>
+                                            </button>
+                                            <button type="button" class="layout-switcher__button" data-layout="grid" data-with-features="true">
+                                                <svg width="16" height="16">
+                                                    <path d="M16,0.8v14.4c0,0.4-0.4,0.8-0.8,0.8H9.8C9.4,16,9,15.6,9,15.2V0.8C9,0.4,9.4,0,9.8,0l5.4,0C15.6,0,16,0.4,16,0.8z M7,0.8
+                                                                v14.4C7,15.6,6.6,16,6.2,16H0.8C0.4,16,0,15.6,0,15.2L0,0.8C0,0.4,0.4,0,0.8,0l5.4,0C6.6,0,7,0.4,7,0.8z" />
+                                                </svg>
+                                            </button>
+                                            <button type="button" class="layout-switcher__button" data-layout="list" data-with-features="false">
+                                                <svg width="16" height="16">
+                                                    <path d="M15.2,16H0.8C0.4,16,0,15.6,0,15.2V9.8C0,9.4,0.4,9,0.8,9h14.4C15.6,9,16,9.4,16,9.8v5.4C16,15.6,15.6,16,15.2,16z M15.2,7
+                                                        H0.8C0.4,7,0,6.6,0,6.2V0.8C0,0.4,0.4,0,0.8,0h14.4C15.6,0,16,0.4,16,0.8v5.4C16,6.6,15.6,7,15.2,7z" />
+                                                </svg>
+                                            </button>
+                                            <button type="button" class="layout-switcher__button" data-layout="table" data-with-features="false">
+                                                <svg width="16" height="16">
+                                                    <path d="M15.2,16H0.8C0.4,16,0,15.6,0,15.2v-2.4C0,12.4,0.4,12,0.8,12h14.4c0.4,0,0.8,0.4,0.8,0.8v2.4C16,15.6,15.6,16,15.2,16z
+                                                    M15.2,10H0.8C0.4,10,0,9.6,0,9.2V6.8C0,6.4,0.4,6,0.8,6h14.4C15.6,6,16,6.4,16,6.8v2.4C16,9.6,15.6,10,15.2,10z M15.2,4H0.8
+                                                        C0.4,4,0,3.6,0,3.2V0.8C0,0.4,0.4,0,0.8,0h14.4C15.6,0,16,0.4,16,0.8v2.4C16,3.6,15.6,4,15.2,4z" />
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
-                                @endforeach
-                            @else
-                                    <h4 class="text-warning" style="margin:100px auto;">There are no products.</h4>
-                            @endif
+
+                                    <div class="view-options__spring"></div>
+
+                                </div>
+
+                            </div>
+                            {{-- @if(count($products)>0)
+                            @foreach($products as $product)
+                            @endforeach
+                            @endif --}}
+                            <div class="products-view__list products-list products-list--grid--4" data-layout="grid" data-with-features="false">
+                                <div class="products-list__head">
+                                    <div class="products-list__column products-list__column--image">Image</div>
+                                    <div class="products-list__column products-list__column--meta">In Stock</div>
+                                    <div class="products-list__column products-list__column--product">Product</div>
+                                    <div class="products-list__column products-list__column--rating">Rating</div>
+                                    <div class="products-list__column products-list__column--price">Price</div>
+                                </div>
+                                <div class="products-list__content">
+                                    @if(count($products)>0)
+                                        @foreach($products as $product)
+                                        @php
+                                        $photo=explode(',',$product->photo);
+                                        @endphp
+                                        <div class="products-list__item">
+                                            <div class="product-card">
+                                                <div class="product-card__actions-list">
+                                                    <button class="product-card__action product-card__action--quickview" type="button" aria-label="Quick view">
+                                                        <svg width="16" height="16">
+                                                            <path d="M14,15h-4v-2h3v-3h2v4C15,14.6,14.6,15,14,15z M13,3h-3V1h4c0.6,0,1,0.4,1,1v4h-2V3z M6,3H3v3H1V2c0-0.6,0.4-1,1-1h4V3z
+                                                                M3,13h3v2H2c-0.6,0-1-0.4-1-1v-4h2V13z" />
+                                                        </svg>
+                                                    </button>
 
 
+
+                                                    <a class="product-card__action product-card__action--wishlist" href="{{route('add-to-wishlist',$product->slug)}}"  aria-label="Add to wish list">
+                                                        <svg width="16" height="16">
+                                                            <path d="M13.9,8.4l-5.4,5.4c-0.3,0.3-0.7,0.3-1,0L2.1,8.4c-1.5-1.5-1.5-3.8,0-5.3C2.8,2.4,3.8,2,4.8,2s1.9,0.4,2.6,1.1L8,3.7
+                                                                l0.6-0.6C9.3,2.4,10.3,2,11.3,2c1,0,1.9,0.4,2.6,1.1C15.4,4.6,15.4,6.9,13.9,8.4z" />
+                                                        </svg>
+                                                    </a>
+
+                                                </div>
+                                                <div class="product-card__image">
+                                                    <div class="image image--type--product">
+                                                        <a href="{{route('product-detail',$product->slug)}}" class="image__body">
+                                                            <img class="image__tag" src="{{$photo[0]}}" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
+                                                        <div class="status-badge__body">
+                                                            <div class="status-badge__icon"><svg width="13" height="13">
+                                                                    <path d="M12,4.4L5.5,11L1,6.5l1.4-1.4l3.1,3.1L10.6,3L12,4.4z" />
+                                                                </svg>
+                                                            </div>
+                                                            <div class="status-badge__text"> {{$product->title}} </div>
+                                                            <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="Part&#x20;Fit&#x20;for&#x20;2011&#x20;Ford&#x20;Focus&#x20;S"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="product-card__info">
+                                                    <div class="product-card__meta"><span class="product-card__meta-title">In stock:</span> {{$product->stock}} </div>
+                                                    <div class="product-card__name">
+                                                        <div>
+                                                            <a href="{{route('product-detail',$product->slug)}}"> {{$product->title}} </a>
+                                                            @if($product->discount)
+                                                                <div class="product-card__badges">
+                                                                    <div class="tag-badge tag-badge--new"> {{$product->discount}} % Off</div>
+                                                                </div>
+                                                            @endif
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-card__rating">
+                                                        <div class="rating product-card__rating-stars">
+                                                            @php
+                                                                $rate=DB::table('product_reviews')->where('product_id',$product->id)->avg('rate');
+                                                                $rate_count=DB::table('product_reviews')->where('product_id',$product->id)->count();
+                                                            @endphp
+
+                                                            <div class="rating__body">
+
+                                                                @for($i=1; $i<=5; $i++)
+                                                                    @if($rate>=$i)
+                                                                        <div class="rating__star rating__star--active"></div>
+                                                                    @else
+                                                                        <div class="rating__star"></div>
+                                                                    @endif
+                                                                @endfor
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-card__rating-label">{{$rate_count}} review</div>
+
+                                                    </div>
+                                                    <div class="product-card__features">
+                                                        {!! html_entity_decode($product->summary) !!}
+                                                    </div>
+
+                                                </div>
+                                                <div class="product-card__footer">
+                                                    @php
+                                                        $after_discount=($product->price-($product->price*$product->discount)/100);
+                                                    @endphp
+                                                    <div class="product-card__prices">
+                                                        <div class="product-card__price product-card__price--new">£{{number_format($after_discount,2)}}</div>
+                                                        <div class="product-card__price product-card__price--old">£{{number_format($product->price,2)}}</div>
+                                                    </div>
+                                                    <form action="{{route('single-add-to-cart')}}" method="post">
+                                                    <a href="{{route('add-to-cart',$product->slug)}}" class="product-card__addtocart-icon" type="submit" aria-label="Add to cart">
+                                                        <svg width="20" height="20">
+                                                            <circle cx="7" cy="17" r="2" />
+                                                            <circle cx="15" cy="17" r="2" />
+                                                            <path d="M20,4.4V5l-1.8,6.3c-0.1,0.4-0.5,0.7-1,0.7H6.7c-0.4,0-0.8-0.3-1-0.7L3.3,3.9C3.1,3.3,2.6,3,2.1,3H0.4C0.2,3,0,2.8,0,2.6
+                                            V1.4C0,1.2,0.2,1,0.4,1h2.5c1,0,1.8,0.6,2.1,1.6L5.1,3l2.3,6.8c0,0.1,0.2,0.2,0.3,0.2h8.6c0.1,0,0.3-0.1,0.3-0.2l1.3-4.4
+                                                C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,20,3.6,20,4.4z" />
+                                                        </svg>
+                                                    </a>
+
+                                                        @csrf
+                                                        <input type="hidden" name="slug" value="{{$product->slug}}">
+                                                        <input type="hidden" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
+                                                        <button class="product-card__addtocart-full" type="submit">
+                                                            Add to cart
+                                                        </button>
+
+                                                    </form>
+                                                    <a  href="{{route('add-to-wishlist',$product->slug)}}" class="product-card__wishlist">
+                                                        <svg width="16" height="16">
+                                                            <path d="M13.9,8.4l-5.4,5.4c-0.3,0.3-0.7,0.3-1,0L2.1,8.4c-1.5-1.5-1.5-3.8,0-5.3C2.8,2.4,3.8,2,4.8,2s1.9,0.4,2.6,1.1L8,3.7
+                                            l0.6-0.6C9.3,2.4,10.3,2,11.3,2c1,0,1.9,0.4,2.6,1.1C15.4,4.6,15.4,6.9,13.9,8.4z" />
+                                                        </svg>
+                                                        <span>Add to wishlist</span>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    @endif
+
+                                </div>
+                            </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 justify-content-center d-flex">
-                                {{$products->appends($_GET)->links()}}
-                            </div>
-                          </div>
-
                     </div>
                 </div>
             </div>
-        </section>
-    </form>
-
-    <!--/ End Product Style 1  -->
-
-
-
-    <!-- Modal -->
-    @if($products)
-        @foreach($products as $key=>$product)
-            <div class="modal fade" id="{{$product->id}}" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row no-gutters">
-                                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                        <!-- Product Slider -->
-                                            <div class="product-gallery">
-                                                <div class="quickview-slider-active">
-                                                    @php
-                                                        $photo=explode(',',$product->photo);
-                                                    // dd($photo);
-                                                    @endphp
-                                                    @foreach($photo as $data)
-                                                        <div class="single-slider">
-                                                            <img src="{{$data}}" alt="{{$data}}">
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        <!-- End Product slider -->
-                                    </div>
-                                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="quickview-content">
-                                            <h2>{{$product->title}}</h2>
-                                            <div class="quickview-ratting-review">
-                                                <div class="quickview-ratting-wrap">
-                                                    <div class="quickview-ratting">
-                                                        {{-- <i class="yellow fa fa-star"></i>
-                                                        <i class="yellow fa fa-star"></i>
-                                                        <i class="yellow fa fa-star"></i>
-                                                        <i class="yellow fa fa-star"></i>
-                                                        <i class="fa fa-star"></i> --}}
-                                                        @php
-                                                            $rate=DB::table('product_reviews')->where('product_id',$product->id)->avg('rate');
-                                                            $rate_count=DB::table('product_reviews')->where('product_id',$product->id)->count();
-                                                        @endphp
-                                                        @for($i=1; $i<=5; $i++)
-                                                            @if($rate>=$i)
-                                                                <i class="yellow fa fa-star"></i>
-                                                            @else
-                                                            <i class="fa fa-star"></i>
-                                                            @endif
-                                                        @endfor
-                                                    </div>
-                                                    <a href="#"> ({{$rate_count}} customer review)</a>
-                                                </div>
-                                                <div class="quickview-stock">
-                                                    @if($product->stock >0)
-                                                    <span><i class="fa fa-check-circle-o"></i> {{$product->stock}} in stock</span>
-                                                    @else
-                                                    <span><i class="fa fa-times-circle-o text-danger"></i> {{$product->stock}} out stock</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            @php
-                                                $after_discount=($product->price-($product->price*$product->discount)/100);
-                                            @endphp
-                                            <h3><small><del class="text-muted">${{number_format($product->price,2)}}</del></small>    ${{number_format($after_discount,2)}}  </h3>
-                                            <div class="quickview-peragraph">
-                                                <p>{!! html_entity_decode($product->summary) !!}</p>
-                                            </div>
-                                            @if($product->size)
-                                                <div class="size">
-                                                    <h4>Size</h4>
-                                                    <ul>
-                                                        @php
-                                                            $sizes=explode(',',$product->size);
-                                                            // dd($sizes);
-                                                        @endphp
-                                                        @foreach($sizes as $size)
-                                                        <li><a href="#" class="one">{{$size}}</a></li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endif
-                                            <div class="size">
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-12">
-                                                        <h5 class="title">Size</h5>
-                                                        <select>
-                                                            @php
-                                                            $sizes=explode(',',$product->size);
-                                                            // dd($sizes);
-                                                            @endphp
-                                                            @foreach($sizes as $size)
-                                                                <option>{{$size}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    {{-- <div class="col-lg-6 col-12">
-                                                        <h5 class="title">Color</h5>
-                                                        <select>
-                                                            <option selected="selected">orange</option>
-                                                            <option>purple</option>
-                                                            <option>black</option>
-                                                            <option>pink</option>
-                                                        </select>
-                                                    </div> --}}
-                                                </div>
-                                            </div>
-                                            <form action="{{route('single-add-to-cart')}}" method="POST">
-                                                @csrf
-                                                <div class="quantity">
-                                                    <!-- Input Order -->
-                                                    <div class="input-group">
-                                                        <div class="button minus">
-                                                            <button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                                                <i class="ti-minus"></i>
-                                                            </button>
-                                                        </div>
-                                                        <input type="hidden" name="slug" value="{{$product->slug}}">
-                                                        <input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
-                                                        <div class="button plus">
-                                                            <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-                                                                <i class="ti-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <!--/ End Input Order -->
-                                                </div>
-                                                <div class="add-to-cart">
-                                                    <button type="submit" class="btn">Add to cart</button>
-                                                    <a href="{{route('add-to-wishlist',$product->slug)}}" class="btn min"><i class="ti-heart"></i></a>
-                                                </div>
-                                            </form>
-                                            <div class="default-social">
-                                            <!-- ShareThis BEGIN --><div class="sharethis-inline-share-buttons"></div><!-- ShareThis END -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-        @endforeach
-    @endif
-    <!-- Modal end -->
-
+            <div class="block-space block-space--layout--before-footer"></div>
+        </div>
+    </div>
+</div>
 @endsection
-@push('styles')
-<style>
-    .pagination{
-        display:inline-flex;
-    }
-    .filter_button{
-        /* height:20px; */
-        text-align: center;
-        background:#F7941D;
-        padding:8px 16px;
-        margin-top:10px;
-        color: white;
-    }
-</style>
-@endpush
-@push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    {{-- <script>
-        $('.cart').click(function(){
-            var quantity=1;
-            var pro_id=$(this).data('id');
-            $.ajax({
-                url:"{{route('add-to-cart')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    quantity:quantity,
-                    pro_id:pro_id
-                },
-                success:function(response){
-                    console.log(response);
-					if(typeof(response)!='object'){
-						response=$.parseJSON(response);
-					}
-					if(response.status){
-						swal('success',response.msg,'success').then(function(){
-							document.location.href=document.location.href;
-						});
-					}
-                    else{
-                        swal('error',response.msg,'error').then(function(){
-							// document.location.href=document.location.href;
-						});
-                    }
-                }
-            })
-        });
-    </script> --}}
-    <script>
-        $(document).ready(function(){
-        /*----------------------------------------------------*/
-        /*  Jquery Ui slider js
-        /*----------------------------------------------------*/
-        if ($("#slider-range").length > 0) {
-            const max_value = parseInt( $("#slider-range").data('max') ) || 500;
-            const min_value = parseInt($("#slider-range").data('min')) || 0;
-            const currency = $("#slider-range").data('currency') || '';
-            let price_range = min_value+'-'+max_value;
-            if($("#price_range").length > 0 && $("#price_range").val()){
-                price_range = $("#price_range").val().trim();
-            }
 
-            let price = price_range.split('-');
-            $("#slider-range").slider({
-                range: true,
-                min: min_value,
-                max: max_value,
-                values: price,
-                slide: function (event, ui) {
-                    $("#amount").val(currency + ui.values[0] + " -  "+currency+ ui.values[1]);
-                    $("#price_range").val(ui.values[0] + "-" + ui.values[1]);
-                }
+@section('scripts')
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.filter-price__slider').on('slideStop', function() {
+                // Ensure that the event is being triggered
+                console.log("Slider stopped");
+
+                // Get the values of min and max prices
+                var minPrice = $('.filter-price__min-value').text().trim();
+                var maxPrice = $('.filter-price__max-value').text().trim();
+
+                // Verify that the values are correctly retrieved
+                console.log("Min Price:", minPrice);
+                console.log("Max Price:", maxPrice);
+
+                // Display an alert with the values
+                alert("Min Price: " + minPrice + "\nMax Price: " + maxPrice);
             });
-            }
-        if ($("#amount").length > 0) {
-            const m_currency = $("#slider-range").data('currency') || '';
-            $("#amount").val(m_currency + $("#slider-range").slider("values", 0) +
-                "  -  "+m_currency + $("#slider-range").slider("values", 1));
-            }
-        })
+        });
     </script>
-@endpush
+@endsection
