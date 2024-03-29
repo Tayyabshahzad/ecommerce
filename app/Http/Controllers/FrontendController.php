@@ -308,10 +308,11 @@ class FrontendController extends Controller
     public function productCat(Request $request){
 
         $products=Category::getProductByCat($request->slug);
+
         // return $request->slug;
         $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
 
-        return view('frontend.pages.product-grids')->with('products',$products->products)->with('recent_products',$recent_products);
+        return view('frontend.pages.product-grids')->with('products',$products->products)->with('recent_products',$recent_products)->with('cat_name',$products);
 
     }
     public function productSubCat(Request $request){

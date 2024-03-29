@@ -25,7 +25,7 @@
                         <li class="breadcrumb__title-safe-area" role="presentation"></li>
                     </ol>
                 </nav>
-                <h1 class="block-header__title">Popular Products</h1>
+                <h1 class="block-header__title"> @if(isset($cat_name)) {{ $cat_name->title }} @else Popular Products @endif</h1>
             </div>
         </div>
     </div>

@@ -40,53 +40,49 @@
 <body>
     <!-- site -->
     <div class="site">
+
+
         <header class="site__mobile-header">
             <div class="mobile-header">
                 <div class="container">
                     <div class="mobile-header__body">
                         <button class="mobile-header__menu-button" type="button">
                             <svg width="18px" height="14px">
-                                <path d="M-0,8L-0,6L18,6L18,8L-0,8ZM-0,-0L18,-0L18,2L-0,2L-0,-0ZM14,14L-0,14L-0,12L14,12L14,14Z" />
+                                <path d="M-0,8L-0,6L18,6L18,8L-0,8ZM-0,-0L18,-0L18,2L-0,2L-0,-0ZM14,14L-0,14L-0,12L14,12L14,14Z"></path>
                             </svg>
                         </button>
-                        <a class="mobile-header__logo" href="">
-                            <!-- mobile-logo -->
-                            <svg width="130" height="20">
-                                <path class="mobile-header__logo-part-one" d="M40,19.9c-0.3,0-0.7,0.1-1,0.1h-4.5c-0.8,0-1.5-0.7-1.5-1.5v-17C33,0.7,33.7,0,34.5,0H39c0.3,0,0.7,0,1,0.1
-	c4.5,0.5,8,4.3,8,8.9v2C48,15.6,44.5,19.5,40,19.9z M44,9.5C44,6.7,41.8,4,39,4h-0.8C37.5,4,37,4.5,37,5.2v9.6
-	c0,0.7,0.5,1.2,1.2,1.2H39c2.8,0,5-2.7,5-5.5V9.5z M29.5,20h-11c-0.8,0-1.5-0.7-1.5-1.5v-17C17,0.7,17.7,0,18.5,0h11
-	C30.3,0,31,0.7,31,1.5v1C31,3.3,30.3,4,29.5,4H21v4h6.5C28.3,8,29,8.7,29,9.5v1c0,0.8-0.7,1.5-1.5,1.5H21v4h8.5
-	c0.8,0,1.5,0.7,1.5,1.5v1C31,19.3,30.3,20,29.5,20z M14.8,17.8c0.6,1-0.1,2.3-1.3,2.3h-2L8,14H4v4.5C4,19.3,3.3,20,2.5,20h-1
-	C0.7,20,0,19.3,0,18.5v-17C0,0.7,0.7,0,1.5,0H8c0.3,0,0.7,0,1,0.1c3.4,0.5,6,3.4,6,6.9c0,2.4-1.2,4.5-3.1,5.8L14.8,17.8z M9,4.2
-	C8.7,4.1,8.3,4,8,4H5C4.4,4,4,4.4,4,5v4c0,0.6,0.4,1,1,1h3c0.3,0,0.7-0.1,1-0.2c0.3-0.1,0.7-0.3,0.9-0.5C10.6,8.8,11,7.9,11,7
-	C11,5.7,10.2,4.6,9,4.2z"></path>
-                                <path class="mobile-header__logo-part-two" d="M128.6,6h-1c-0.5,0-0.9-0.3-1.2-0.7c-0.2-0.3-0.4-0.6-0.8-0.8c-0.5-0.3-1.4-0.5-2.1-0.5c-1.5,0-2.8,0.9-2.8,2
-	c0,0.7,0.5,1.3,1.2,1.6c0.8,0.4,1.1,1.3,0.7,2.1l-0.4,0.9c-0.4,0.7-1.2,1-1.8,0.6c-0.6-0.3-1.2-0.7-1.6-1.2c-1-1.1-1.7-2.5-1.7-4
-	c0-3.3,2.9-6,6.5-6c2.8,0,5.5,1.7,6.4,4C130.3,4.9,129.6,6,128.6,6z M113.5,4H109v14.5c0,0.8-0.7,1.5-1.5,1.5h-1
-	c-0.8,0-1.5-0.7-1.5-1.5V4h-4.5C99.7,4,99,3.3,99,2.5v-1c0-0.8,0.7-1.5,1.5-1.5h13c0.8,0,1.5,0.7,1.5,1.5v1C115,3.3,114.3,4,113.5,4
-	z M97.8,17.8c0.6,1-0.1,2.3-1.3,2.3h-2L91,14h-4v4.5c0,0.8-0.7,1.5-1.5,1.5h-1c-0.8,0-1.5-0.7-1.5-1.5v-17C83,0.7,83.7,0,84.5,0H91
-	c0.3,0,0.7,0,1,0.1c3.4,0.5,6,3.4,6,6.9c0,2.4-1.2,4.5-3.1,5.8L97.8,17.8z M92,4.2C91.7,4.1,91.3,4,91,4h-3c-0.6,0-1,0.4-1,1v4
-	c0,0.6,0.4,1,1,1h3c0.3,0,0.7-0.1,1-0.2c0.3-0.1,0.7-0.3,0.9-0.5C93.6,8.8,94,7.9,94,7C94,5.7,93.2,4.6,92,4.2z M79.5,20h-1.1
-	c-0.6,0-1.2-0.4-1.4-1l-1.5-4h-6.1L68,19c-0.2,0.6-0.8,1-1.4,1h-1.1c-1,0-1.8-1-1.4-2l6.2-17c0.2-0.6,0.8-1,1.4-1h1.6
-	c0.6,0,1.2,0.4,1.4,1l6.2,17C81.3,19,80.5,20,79.5,20z M72.5,6.6L70.9,11h3.2L72.5,6.6z M58,14h-4v4.5c0,0.8-0.7,1.5-1.5,1.5h-1
-	c-0.8,0-1.5-0.7-1.5-1.5v-17C50,0.7,50.7,0,51.5,0H58c3.9,0,7,3.1,7,7S61.9,14,58,14z M61,7c0-1.3-0.8-2.4-2-2.8
-	C58.7,4.1,58.3,4,58,4h-3c-0.5,0-1,0.4-1,1v4c0,0.6,0.5,1,1,1h3c0.3,0,0.7-0.1,1-0.2c0.3-0.1,0.7-0.3,0.9-0.5C60.6,8.8,61,7.9,61,7z
-	 M118.4,14h1c0.5,0,0.9,0.3,1.2,0.7c0.2,0.3,0.4,0.6,0.8,0.8c0.5,0.3,1.4,0.5,2.1,0.5c1.5,0,2.8-0.9,2.8-2c0-0.7-0.5-1.3-1.2-1.6
-	c-0.8-0.4-1.1-1.3-0.7-2.1l0.4-0.9c0.4-0.7,1.2-1,1.8-0.6c0.6,0.3,1.2,0.7,1.6,1.2c1,1.1,1.7,2.5,1.7,4c0,3.3-2.9,6-6.5,6
-	c-2.8,0-5.5-1.7-6.4-4C116.7,15.1,117.4,14,118.4,14z"></path>
-                            </svg>
-                            <!-- mobile-logo / end -->
+                        <a class="mobile-header__logo"  href="{{ route('home') }}">
+                            <img src="@foreach($settings as $data) {{$data->logo}} @endforeach" alt="" width="100">
                         </a>
                         <div class="mobile-header__search mobile-search">
+                            <form class="mobile-search__body" method="post" action="{{route('product.search')}}" >
+                                @csrf
+                                <input class="mobile-search__input"  name="search" placeholder="Search Products Here....." type="search" id="search" autocomplete="off">
 
+                                <button type="submit" class="mobile-search__button mobile-search__button--search">
+                                    <svg width="20" height="20">
+                                        <path d="M19.2,17.8c0,0-0.2,0.5-0.5,0.8c-0.4,0.4-0.9,0.6-0.9,0.6s-0.9,0.7-2.8-1.6c-1.1-1.4-2.2-2.8-3.1-3.9C10.9,14.5,9.5,15,8,15
+	                                                c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7c0,1.5-0.5,2.9-1.3,4c1.1,0.8,2.5,2,4,3.1C20,16.8,19.2,17.8,19.2,17.8z M8,3C5.2,3,3,5.2,3,8
+	                                    c0,2.8,2.2,5,5,5c2.8,0,5-2.2,5-5C13,5.2,10.8,3,8,3z"></path>
+                                    </svg>
+                                </button>
+                                <button type="button" class="mobile-search__button mobile-search__button--close">
+                                    <svg width="20" height="20">
+                                        <path d="M16.7,16.7L16.7,16.7c-0.4,0.4-1,0.4-1.4,0L10,11.4l-5.3,5.3c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L8.6,10L3.3,4.7
+	                                    c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L10,8.6l5.3-5.3c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L11.4,10l5.3,5.3
+	                                        C17.1,15.7,17.1,16.3,16.7,16.7z"></path>
+                                    </svg>
+                                </button>
+                                <div class="mobile-search__field"></div>
+                            </form>
                         </div>
                         <div class="mobile-header__indicators">
                             <div class="mobile-indicator mobile-indicator--search d-md-none">
                                 <button type="button" class="mobile-indicator__button">
                                     <span class="mobile-indicator__icon"><svg width="20" height="20">
                                             <path d="M19.2,17.8c0,0-0.2,0.5-0.5,0.8c-0.4,0.4-0.9,0.6-0.9,0.6s-0.9,0.7-2.8-1.6c-1.1-1.4-2.2-2.8-3.1-3.9C10.9,14.5,9.5,15,8,15
-	c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7c0,1.5-0.5,2.9-1.3,4c1.1,0.8,2.5,2,4,3.1C20,16.8,19.2,17.8,19.2,17.8z M8,3C5.2,3,3,5.2,3,8
-	c0,2.8,2.2,5,5,5c2.8,0,5-2.2,5-5C13,5.2,10.8,3,8,3z" />
+	                                    c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7c0,1.5-0.5,2.9-1.3,4c1.1,0.8,2.5,2,4,3.1C20,16.8,19.2,17.8,19.2,17.8z M8,3C5.2,3,3,5.2,3,8
+	                                c0,2.8,2.2,5,5,5c2.8,0,5-2.2,5-5C13,5.2,10.8,3,8,3z"></path>
                                         </svg>
                                     </span>
                                 </button>
@@ -95,7 +91,7 @@
                                 <a href="account-login.html" class="mobile-indicator__button">
                                     <span class="mobile-indicator__icon"><svg width="20" height="20">
                                             <path d="M20,20h-2c0-4.4-3.6-8-8-8s-8,3.6-8,8H0c0-4.2,2.6-7.8,6.3-9.3C4.9,9.6,4,7.9,4,6c0-3.3,2.7-6,6-6s6,2.7,6,6
-	c0,1.9-0.9,3.6-2.3,4.7C17.4,12.2,20,15.8,20,20z M14,6c0-2.2-1.8-4-4-4S6,3.8,6,6s1.8,4,4,4S14,8.2,14,6z" />
+	                                        c0,1.9-0.9,3.6-2.3,4.7C17.4,12.2,20,15.8,20,20z M14,6c0-2.2-1.8-4-4-4S6,3.8,6,6s1.8,4,4,4S14,8.2,14,6z"></path>
                                         </svg>
                                     </span>
                                 </a>
@@ -105,22 +101,22 @@
                                     <span class="mobile-indicator__icon">
                                         <svg width="20" height="20">
                                             <path d="M14,3c2.2,0,4,1.8,4,4c0,4-5.2,10-8,10S2,11,2,7c0-2.2,1.8-4,4-4c1,0,1.9,0.4,2.7,1L10,5.2L11.3,4C12.1,3.4,13,3,14,3 M14,1
-	c-1.5,0-2.9,0.6-4,1.5C8.9,1.6,7.5,1,6,1C2.7,1,0,3.7,0,7c0,5,6,12,10,12s10-7,10-12C20,3.7,17.3,1,14,1L14,1z" />
+	                                c-1.5,0-2.9,0.6-4,1.5C8.9,1.6,7.5,1,6,1C2.7,1,0,3.7,0,7c0,5,6,12,10,12s10-7,10-12C20,3.7,17.3,1,14,1L14,1z"></path>
                                         </svg>
                                     </span>
                                 </a>
                             </div>
                             <div class="mobile-indicator">
-                                <a href="{{route('cart')}}" class="mobile-indicator__button">
+                                <a href="{{ route('cart') }}" class="mobile-indicator__button">
                                     <span class="mobile-indicator__icon">
                                         <svg width="20" height="20">
-                                            <circle cx="7" cy="17" r="2" />
-                                            <circle cx="15" cy="17" r="2" />
+                                            <circle cx="7" cy="17" r="2"></circle>
+                                            <circle cx="15" cy="17" r="2"></circle>
                                             <path d="M20,4.4V5l-1.8,6.3c-0.1,0.4-0.5,0.7-1,0.7H6.7c-0.4,0-0.8-0.3-1-0.7L3.3,3.9C3.1,3.3,2.6,3,2.1,3H0.4C0.2,3,0,2.8,0,2.6
-	V1.4C0,1.2,0.2,1,0.4,1h2.5c1,0,1.8,0.6,2.1,1.6L5.1,3l2.3,6.8c0,0.1,0.2,0.2,0.3,0.2h8.6c0.1,0,0.3-0.1,0.3-0.2l1.3-4.4
-	C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,20,3.6,20,4.4z" />
+	                                                V1.4C0,1.2,0.2,1,0.4,1h2.5c1,0,1.8,0.6,2.1,1.6L5.1,3l2.3,6.8c0,0.1,0.2,0.2,0.3,0.2h8.6c0.1,0,0.3-0.1,0.3-0.2l1.3-4.4
+	                                        C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,20,3.6,20,4.4z"></path>
                                         </svg>
-                                        <span class="mobile-indicator__counter">3</span>
+                                        <span class="mobile-indicator__counter">{{Helper::cartCount()}}</span>
                                     </span>
                                 </a>
                             </div>
@@ -141,9 +137,6 @@
                         <div class="topbar__item-text"><a class="topbar__link" href="{{route('about-us')}}">About Us</a></div>
                         <div class="topbar__item-text"><a class="topbar__link" href="{{route('contact')}}">Contacts</a></div>
                         <div class="topbar__item-text"><a class="topbar__link" href="{{route('order.track')}}">Track Order</a></div>
-
-
-
                     </div>
                 </div>
                 <div class="header__topbar-end-bg"></div>
@@ -239,23 +232,7 @@
                             @csrf
                             <div class="search__shadow"></div>
                             <input class="search__input"  name="search" placeholder="Search Products Here....." type="search" id="search" autocomplete="off">
-                            {{-- <button class="search__button search__button--start" type="submit">
-                                <span class="search__button-icon"><svg width="20" height="20">
-                                    <path d="M19.2,17.8c0,0-0.2,0.5-0.5,0.8c-0.4,0.4-0.9,0.6-0.9,0.6s-0.9,0.7-2.8-1.6c-1.1-1.4-2.2-2.8-3.1-3.9C10.9,14.5,9.5,15,8,15
-                                    c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7c0,1.5-0.5,2.9-1.3,4c1.1,0.8,2.5,2,4,3.1C20,16.8,19.2,17.8,19.2,17.8z M8,3C5.2,3,3,5.2,3,8
-                                    c0,2.8,2.2,5,5,5c2.8,0,5-2.2,5-5C13,5.2,10.8,3,8,3z" />
-                                    </svg>
-                                </span>
 
-                            </button> --}}
-                            {{-- <button class="search__button search__button--end" type="submit">
-                                <span class="search__button-icon"><svg width="20" height="20">
-                                        <path d="M19.2,17.8c0,0-0.2,0.5-0.5,0.8c-0.4,0.4-0.9,0.6-0.9,0.6s-0.9,0.7-2.8-1.6c-1.1-1.4-2.2-2.8-3.1-3.9C10.9,14.5,9.5,15,8,15
-	c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7c0,1.5-0.5,2.9-1.3,4c1.1,0.8,2.5,2,4,3.1C20,16.8,19.2,17.8,19.2,17.8z M8,3C5.2,3,3,5.2,3,8
-	c0,2.8,2.2,5,5,5c2.8,0,5-2.2,5-5C13,5.2,10.8,3,8,3z" />
-                                    </svg>
-                                </span>
-                            </button> --}}
                             <div class="search__box"></div>
                             <div class="search__decor">
                                 <div class="search__decor-start"></div>
@@ -273,23 +250,14 @@
                 </div>
                 <div class="header__indicators">
                     <div class="indicator">
-                        {{-- <a href="{{route('wishlist')}}" class="indicator__button">
-                            <span class="indicator__icon">
-                                <svg width="32" height="32">
-                                    <path d="M23,4c3.9,0,7,3.1,7,7c0,6.3-11.4,15.9-14,16.9C13.4,26.9,2,17.3,2,11c0-3.9,3.1-7,7-7c2.1,0,4.1,1,5.4,2.6l1.6,2l1.6-2
-	C18.9,5,20.9,4,23,4 M23,2c-2.8,0-5.4,1.3-7,3.4C14.4,3.3,11.8,2,9,2c-5,0-9,4-9,9c0,8,14,19,16,19s16-11,16-19C32,6,28,2,23,2L23,2
-	z" />
-                                </svg>
-                            </span>
-                            {{Helper::wishlistCount()}}
-                        </a> --}}
+
                     </div>
                     <div class="indicator indicator--trigger--click">
-                        <a href="account-login.html" class="indicator__button">
+                        <a href="#" class="indicator__button">
                             <span class="indicator__icon">
                                 <svg width="32" height="32">
                                     <path d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
-	C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6,6s2.7,6,6,6S22,13.3,22,10z" />
+	                                    C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6,6s2.7,6,6,6S22,13.3,22,10z" />
                                 </svg>
                             </span>
                             <span class="indicator__title">Hello, Log In</span>
@@ -364,8 +332,8 @@
                                     <circle cx="10.5" cy="27.5" r="2.5" />
                                     <circle cx="23.5" cy="27.5" r="2.5" />
                                     <path d="M26.4,21H11.2C10,21,9,20.2,8.8,19.1L5.4,4.8C5.3,4.3,4.9,4,4.4,4H1C0.4,4,0,3.6,0,3s0.4-1,1-1h3.4C5.8,2,7,3,7.3,4.3
-	l3.4,14.3c0.1,0.2,0.3,0.4,0.5,0.4h15.2c0.2,0,0.4-0.1,0.5-0.4l3.1-10c0.1-0.2,0-0.4-0.1-0.4C29.8,8.1,29.7,8,29.5,8H14
-	c-0.6,0-1-0.4-1-1s0.4-1,1-1h15.5c0.8,0,1.5,0.4,2,1c0.5,0.6,0.6,1.5,0.4,2.2l-3.1,10C28.5,20.3,27.5,21,26.4,21z" />
+	                                    l3.4,14.3c0.1,0.2,0.3,0.4,0.5,0.4h15.2c0.2,0,0.4-0.1,0.5-0.4l3.1-10c0.1-0.2,0-0.4-0.1-0.4C29.8,8.1,29.7,8,29.5,8H14
+	                                        c-0.6,0-1-0.4-1-1s0.4-1,1-1h15.5c0.8,0,1.5,0.4,2,1c0.5,0.6,0.6,1.5,0.4,2.2l-3.1,10C28.5,20.3,27.5,21,26.4,21z" />
                                 </svg>
                                 <span class="indicator__counter">{{Helper::cartCount()}}</span>
                             </span>
@@ -437,8 +405,203 @@
 
 
 
-        <!-- site__body / end -->
-        <!-- site__footer -->
+        <div class="mobile-menu">
+            <div class="mobile-menu__backdrop"></div>
+            <div class="mobile-menu__body">
+                <button class="mobile-menu__close" type="button"><svg width="12" height="12">
+                        <path d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6
+        c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4
+        C11.2,9.8,11.2,10.4,10.8,10.8z"></path>
+                    </svg>
+                </button>
+                <div class="mobile-menu__panel">
+                    <div class="mobile-menu__panel-header">
+                        <div class="mobile-menu__panel-title">Menu</div>
+                    </div>
+                    <div class="mobile-menu__panel-body">
+                        <div class="mobile-menu__divider"></div>
+                        <div class="mobile-menu__indicators">
+                            {{-- <a class="mobile-menu__indicator" href="wishlist.html">
+                                <span class="mobile-menu__indicator-icon">
+                                    <svg width="20" height="20">
+                                        <path d="M14,3c2.2,0,4,1.8,4,4c0,4-5.2,10-8,10S2,11,2,7c0-2.2,1.8-4,4-4c1,0,1.9,0.4,2.7,1L10,5.2L11.3,4C12.1,3.4,13,3,14,3 M14,1
+        c-1.5,0-2.9,0.6-4,1.5C8.9,1.6,7.5,1,6,1C2.7,1,0,3.7,0,7c0,5,6,12,10,12s10-7,10-12C20,3.7,17.3,1,14,1L14,1z"></path>
+                                    </svg>
+                                </span>
+                                <span class="mobile-menu__indicator-title">Wishlist</span>
+                            </a> --}}
+                            <a class="mobile-menu__indicator" href="account-dashboard.html">
+                                <span class="mobile-menu__indicator-icon">
+                                    <svg width="20" height="20">
+                                        <path d="M20,20h-2c0-4.4-3.6-8-8-8s-8,3.6-8,8H0c0-4.2,2.6-7.8,6.3-9.3C4.9,9.6,4,7.9,4,6c0-3.3,2.7-6,6-6s6,2.7,6,6
+        c0,1.9-0.9,3.6-2.3,4.7C17.4,12.2,20,15.8,20,20z M14,6c0-2.2-1.8-4-4-4S6,3.8,6,6s1.8,4,4,4S14,8.2,14,6z"></path>
+                                    </svg>
+                                </span>
+                                <span class="mobile-menu__indicator-title">Account</span>
+                            </a>
+                            <a class="mobile-menu__indicator" href="{{ route('cart') }}">
+                                <span class="mobile-menu__indicator-icon">
+                                    <svg width="20" height="20">
+                                        <circle cx="7" cy="17" r="2"></circle>
+                                        <circle cx="15" cy="17" r="2"></circle>
+                                        <path d="M20,4.4V5l-1.8,6.3c-0.1,0.4-0.5,0.7-1,0.7H6.7c-0.4,0-0.8-0.3-1-0.7L3.3,3.9C3.1,3.3,2.6,3,2.1,3H0.4C0.2,3,0,2.8,0,2.6
+        V1.4C0,1.2,0.2,1,0.4,1h2.5c1,0,1.8,0.6,2.1,1.6L5.1,3l2.3,6.8c0,0.1,0.2,0.2,0.3,0.2h8.6c0.1,0,0.3-0.1,0.3-0.2l1.3-4.4
+        C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,20,3.6,20,4.4z"></path>
+                                    </svg>
+                                    <span class="mobile-menu__indicator-counter">{{Helper::cartCount()}}</span>
+                                </span>
+                                <span class="mobile-menu__indicator-title">Cart</span>
+                            </a>
+
+                        </div>
+                        <div class="mobile-menu__divider"></div>
+                        <ul class="mobile-menu__links">
+                            <li data-mobile-menu-item="">
+                                <a href="{{ route('home') }}" class="" >
+                                    Home
+                                </a>
+
+                            </li>
+                            <li data-mobile-menu-item="">
+                                <a href="shop-grid-4-columns-sidebar.html" class="" data-mobile-menu-trigger="">
+                                    Shop
+                                    <svg width="7" height="11">
+                                        <path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+                                    C-0.1,9.8-0.1,10.4,0.3,10.7z"></path>
+                                    </svg>
+                                </a>
+                                <div class="mobile-menu__links-panel" data-mobile-menu-panel="">
+                                    <div class="mobile-menu__panel mobile-menu__panel--hidden">
+                                        <div class="mobile-menu__panel-header">
+                                            <button class="mobile-menu__panel-back" type="button">
+                                                <svg width="7" height="11">
+                                                    <path d="M6.7,0.3L6.7,0.3c-0.4-0.4-0.9-0.4-1.3,0L0,5.5l5.4,5.2c0.4,0.4,0.9,0.3,1.3,0l0,0c0.4-0.4,0.4-1,0-1.3l-4-3.9l4-3.9C7.1,1.2,7.1,0.6,6.7,0.3z"></path>
+                                                </svg>
+                                            </button>
+                                            <div class="mobile-menu__panel-title">Shop</div>
+                                        </div>
+                                        <div class="mobile-menu__panel-body">
+                                            <ul class="mobile-menu__links">
+                                                <li data-mobile-menu-item="">
+                                                    <a href="category.html" class="" data-mobile-menu-trigger="">
+                                                        Category
+                                                        <svg width="7" height="11">
+                                                            <path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+                                                        C-0.1,9.8-0.1,10.4,0.3,10.7z"></path>
+                                                        </svg>
+                                                    </a>
+                                                    <div class="mobile-menu__links-panel" data-mobile-menu-panel="">
+                                                        <div class="mobile-menu__panel mobile-menu__panel--hidden">
+                                                            <div class="mobile-menu__panel-header">
+                                                                <button class="mobile-menu__panel-back" type="button">
+                                                                    <svg width="7" height="11">
+                                                                        <path d="M6.7,0.3L6.7,0.3c-0.4-0.4-0.9-0.4-1.3,0L0,5.5l5.4,5.2c0.4,0.4,0.9,0.3,1.3,0l0,0c0.4-0.4,0.4-1,0-1.3l-4-3.9l4-3.9C7.1,1.2,7.1,0.6,6.7,0.3z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                                <div class="mobile-menu__panel-title">Category</div>
+                                                            </div>
+                                                            <div class="mobile-menu__panel-body">
+                                                                <ul class="mobile-menu__links">
+
+                                                                    @foreach(Helper::getAllCategory() as $cat)
+                                                                        <li data-mobile-menu-item="">
+                                                                            <a href="{{route('product-cat',$cat->slug)}}" data-mobile-menu-trigger="">
+                                                                                {{$cat->title}}
+                                                                            </a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li data-mobile-menu-item="">
+                                                    <a href="{{ route('all.products') }}" class="" data-mobile-menu-trigger="">
+                                                       All Products
+                                                    </a>
+                                                </li>
+
+
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                            <li data-mobile-menu-item="">
+                                <a href="{{route('about-us')}}" class="" data-mobile-menu-trigger="">
+                                    About Us
+                                </a>
+                            </li>
+                            <li data-mobile-menu-item="">
+                                <a href="{{ route('contact') }}" class="" data-mobile-menu-trigger="">
+                                    Contact Us
+                                </a>
+                            </li>
+
+                            <li data-mobile-menu-item="">
+                                <a href="{{ route('order.track') }}" class="" data-mobile-menu-trigger="">
+                                    Track Order
+                                </a>
+                            </li>
+
+
+
+                            <li data-mobile-menu-item="">
+                                <a href="#" class="" data-mobile-menu-trigger="">
+                                    Account
+                                    <svg width="7" height="11">
+                                        <path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
+        C-0.1,9.8-0.1,10.4,0.3,10.7z"></path>
+                                    </svg>
+                                </a>
+                                <div class="mobile-menu__links-panel" data-mobile-menu-panel="">
+                                    <div class="mobile-menu__panel mobile-menu__panel--hidden">
+                                        <div class="mobile-menu__panel-header">
+                                            <button class="mobile-menu__panel-back" type="button">
+                                                <svg width="7" height="11">
+                                                    <path d="M6.7,0.3L6.7,0.3c-0.4-0.4-0.9-0.4-1.3,0L0,5.5l5.4,5.2c0.4,0.4,0.9,0.3,1.3,0l0,0c0.4-0.4,0.4-1,0-1.3l-4-3.9l4-3.9C7.1,1.2,7.1,0.6,6.7,0.3z"></path>
+                                                </svg>
+                                            </button>
+                                            <div class="mobile-menu__panel-title">Account</div>
+                                        </div>
+                                        <div class="mobile-menu__panel-body">
+                                            <ul class="mobile-menu__links">
+                                                <li data-mobile-menu-item="">
+                                                    <a href="{{ route('login.form') }}" class="" data-mobile-menu-trigger="">
+                                                        Login &amp; Register
+                                                    </a>
+                                                </li>
+                                                @if(Auth::user())
+                                                    <li data-mobile-menu-item="">
+                                                        @if(Auth::user()->role=='admin')
+                                                            <a href="{{route('admin')}}">Dashboard</a>
+                                                        @else
+                                                            <a href="{{route('user')}}">Dashboard</a>
+                                                        @endif
+                                                    </li>
+                                                @endif
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                        <div class="mobile-menu__spring"></div>
+                        <div class="mobile-menu__divider"></div>
+                        <a class="mobile-menu__contacts" href="">
+                            <div class="mobile-menu__contacts-subtitle">Free call 24/7</div>
+                            <div class="mobile-menu__contacts-title">800 060-0730</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <footer class="site__footer">
             <div class="site-footer">
                 <div class="decor site-footer__decor decor--type--bottom">
